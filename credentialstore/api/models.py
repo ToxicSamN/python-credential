@@ -14,6 +14,7 @@ class Secret(models.Model):
                                                                        self.date_created,
                                                                        self.date_modified)
 
+
 class Client(models.Model):
     """This is the class for the Client model"""
     id = models.CharField(blank=False, unique=True)
