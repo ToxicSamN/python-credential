@@ -11,7 +11,9 @@ class Secret(models.Model):
     date_modified = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        """ Return the Human Readable representation of the model"""
+        """
+        Return the Human Readable representation of the model
+        """
         return "Username: {}\nDate Created:{}\Date Modified:{}".format(self.username,
                                                                        self.date_created,
                                                                        self.date_modified)
@@ -28,5 +30,7 @@ class Client(models.Model):
     date_modified = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        """ Return the Human Readable representation of the model"""
+        """
+        Return the Human Readable representation of the model
+        """
         return "ID: {}\nPublicKey: {}".format(self.id, self.pubkey)
