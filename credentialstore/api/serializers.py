@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from .models import Secret, Client
 
 
+
 class SecretSerializer(serializers.ModelSerializer):
     """
     Serializer to map the Model instance into JSON format.
@@ -28,5 +29,5 @@ class ClientSerializer(serializers.ModelSerializer):
         Map this serializer to a model and their fields.
         """
         model = Client
-        fields = ('id', 'pubkey','name')
+        fields = ('ClientId', 'pubkey','name')
         read_only_fields = ('date_created', 'date_modified')

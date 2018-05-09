@@ -5,8 +5,8 @@ class Secret(models.Model):
     """
     This is the class for the Secret model
     """
-    username = models.CharField(blank=False, unique=True)
-    password = models.CharField(blank=False, unique=True)
+    username = models.CharField(max_length=32, blank=False, unique=True)
+    password = models.CharField(max_length=65535, blank=False, unique=True)
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
 
@@ -23,9 +23,9 @@ class Client(models.Model):
     """
     This is the class for the Client model
     """
-    id = models.CharField(blank=False, unique=True)
-    pubkey = models.CharField(blank=False, unique=True)
-    name = models.CharField(blank=False)
+    ClientId = models.CharField(max_length=65535, blank=False, unique=True)
+    pubkey = models.CharField(max_length=65535, blank=False, unique=True)
+    name = models.CharField(max_length=65535, blank=False)
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
 
