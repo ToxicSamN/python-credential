@@ -59,7 +59,7 @@ coverage.xml
 local_settings.py
 *.sqlite3
 .migrations/
-
+*/migrations/
 
 # Flask stuff:
 instance/
