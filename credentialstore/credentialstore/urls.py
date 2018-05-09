@@ -1,3 +1,5 @@
+# /credentialstore/urls.py
+
 """credentialstore URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
@@ -15,7 +17,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf.urls import url, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    url(r'^', include('api.urls'))  # Add this line
 ]
