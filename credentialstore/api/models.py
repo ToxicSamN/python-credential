@@ -1,14 +1,15 @@
 # api/models.py
 
 from django.db import models
+from rest_framework import serializers
 
 
 class Secret(models.Model):
     """
     This is the class for the Secret model
     """
-    username = models.CharField(max_length=32, blank=False, unique=True)
-    password = models.CharField(max_length=65535, blank=False, unique=True)
+    username = models.CharField(max_length=65535, blank=False, unique=True)
+    password = models.CharField(max_length=65535, blank=False, unique=True, )
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
 

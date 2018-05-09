@@ -31,5 +31,19 @@ class ClientSerializer(serializers.ModelSerializer):
         Map this serializer to a model and their fields.
         """
         model = Client
-        fields = ('ClientId', 'pubkey','name')
+        fields = ('pubkey', 'name')
+        read_only_fields = ('date_created', 'date_modified', 'ClientId')
+
+
+class ClientCreateSerializer(serializers.ModelSerializer):
+    """
+    Serializer to map the Model instance into JSON format.
+    """
+
+    class Meta:
+        """
+        Map this serializer to a model and their fields.
+        """
+        model = Client
+        fields = ('ClientId', 'pubkey', 'name')
         read_only_fields = ('date_created', 'date_modified')
