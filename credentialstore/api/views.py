@@ -10,6 +10,7 @@ class ClientListView(generics.ListAPIView):
     """This class defines the create behavior of our rest api."""
     queryset = Client.objects.all()
     serializer_class = ClientSerializer
+    print("pause")
 
 
 class ClientCreateView(generics.CreateAPIView):

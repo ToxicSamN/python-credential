@@ -27,7 +27,7 @@ class Client(models.Model):
     This is the class for the Client model
     """
     ClientId = models.CharField(max_length=65535, blank=False, unique=True)
-    pubkey = models.CharField(max_length=65535, blank=False, unique=True)
+    pubkey = models.TextField(max_length=65535, blank=False, unique=True)
     name = models.CharField(max_length=65535, blank=False)
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
