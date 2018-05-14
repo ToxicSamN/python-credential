@@ -7,7 +7,21 @@ from .models import Secret, Client
 
 
 
-class SecretSerializer(serializers.ModelSerializer):
+class SecretListSerializer(serializers.ModelSerializer):
+    """
+    Serializer to map the Model instance into JSON format.
+    """
+
+    class Meta:
+        """
+        Map this serializer to a model and their fields.
+        """
+        model = Secret
+        fields = ('username', 'ClientId')
+        read_only_fields = ('password', 'date_created', 'date_modified')
+
+
+class SecretCreateSerializer(serializers.ModelSerializer):
     """
     Serializer to map the Model instance into JSON format.
     """
@@ -21,7 +35,7 @@ class SecretSerializer(serializers.ModelSerializer):
         read_only_fields = ('date_created', 'date_modified')
 
 
-class ClientSerializer(serializers.ModelSerializer):
+class ClientListSerializer(serializers.ModelSerializer):
     """
     Serializer to map the Model instance into JSON format.
     """
