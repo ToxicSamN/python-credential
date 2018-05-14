@@ -21,5 +21,5 @@ from django.conf.urls import url, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    url(r'api/', include('api.urls'))  # Add this line
+    url(r'credentialstore/', include('api.urls'))  # Add this line
 ]
