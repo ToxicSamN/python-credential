@@ -28,6 +28,8 @@ if os.environ.get('DJANGO_DEBUG'):
     if os.environ['DJANGO_DEBUG'] == "True":
         DEBUG = True
 
+print('DEBUG Enabled: {}'.format(DEBUG))
+
 # This setting is required to protect your site against some CSRF
 # attacks. If you use a wildcard, you must perform your own validation
 # of the Host HTTP header, or otherwise ensure that you aren’t vulnerable
