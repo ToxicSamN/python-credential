@@ -18,18 +18,31 @@ class RealClientListView(generics.ListAPIView):
     serializer_class = ClientListSerializer
 
     def get(self, request, *args, **kwargs):
-
-        if request.query_params:
+        # invalid_lookup_fields MUST contain " ," in the list for the exception message to be correct
+        invalid_lookup_fields = ("name", "date_created", "date_modified", "id", " ,")
+        if request.query_params and not [True for k in invalid_lookup_fields if
+                                         request.query_params.dict().keys().__contains__(k)]:
+            # The model.objects.filter will raise an exception if the user provides a field unknown to the model.
+            #  Let's catch this and formulate ur own message on what a 'valid' field is
             try:
                 queryset = ClientModel.objects.filter(**request.query_params.dict())
             except exceptions.FieldError as e:
-                replace_str = ('name', ''), ('date_created', ''), ('date_modified', ''), ('id', ''), (' ,', '')
+                ziplist_b = [''] * len(invalid_lookup_fields)
+                zipped = zip(invalid_lookup_fields, ziplist_b)
                 msg = e.args[0]
-                return Response(
-                    ["HTTP 400 BAD REQUEST", "{}".format(reduce(lambda a, kv: a.replace(*kv), replace_str, msg))],
-                    status=status.HTTP_400_BAD_REQUEST)
-                # raise exceptions.FieldError("{}".format(reduce(lambda a, kv: a.replace(*kv), replace_str, msg)),
-                #                             status=status.HTTP_400_BAD_REQUEST)
+
+                # If wanting to see the exception stack trace then comment out the below return and Uncomment
+                #   the below raise exceptions.FieldError section
+
+                # <------ Production Usage Requires This Return Response ------>
+                return Response(["HTTP 400 BAD REQUEST",
+                                 "{}".format(reduce(lambda a, kv: a.replace(*kv), tuple(z for z in zipped), msg))],
+                                status=status.HTTP_400_BAD_REQUEST)
+
+                # <--------- For Dev/Test Purposes Uncomment To View Stack Trace --------->
+                # raise exceptions.FieldError(
+                #     "{}".format(reduce(lambda a, kv: a.replace(*kv), tuple(z for z in zipped), msg)),
+                #     status=status.HTTP_400_BAD_REQUEST)
 
             if queryset:
                 serializer_q = ClientListSerializer(queryset, many=True)
