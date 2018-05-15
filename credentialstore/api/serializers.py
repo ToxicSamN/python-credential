@@ -3,7 +3,7 @@
 from rest_framework import status
 from rest_framework import serializers
 from rest_framework.response import Response
-from .models import Secret, Client
+from .models import SecretModel, ClientModel
 
 
 
@@ -16,7 +16,7 @@ class SecretListSerializer(serializers.ModelSerializer):
         """
         Map this serializer to a model and their fields.
         """
-        model = Secret
+        model = SecretModel
         fields = ('username', 'ClientId')
         read_only_fields = ('password', 'date_created', 'date_modified')
 
@@ -30,7 +30,7 @@ class SecretCreateSerializer(serializers.ModelSerializer):
         """
         Map this serializer to a model and their fields.
         """
-        model = Secret
+        model = SecretModel
         fields = ('username', 'password')
         read_only_fields = ('date_created', 'date_modified')
 
@@ -44,7 +44,7 @@ class ClientListSerializer(serializers.ModelSerializer):
         """
         Map this serializer to a model and their fields.
         """
-        model = Client
+        model = ClientModel
         fields = ('pubkey', 'name')
         read_only_fields = ('date_created', 'date_modified', 'ClientId')
 
@@ -58,6 +58,6 @@ class ClientCreateSerializer(serializers.ModelSerializer):
         """
         Map this serializer to a model and their fields.
         """
-        model = Client
+        model = ClientModel
         fields = ('ClientId', 'pubkey', 'name')
         read_only_fields = ('date_created', 'date_modified')
