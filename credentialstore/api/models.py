@@ -4,7 +4,7 @@ from django.db import models
 from rest_framework import serializers
 
 
-class Secret(models.Model):
+class SecretModel(models.Model):
     """
     This is the class for the Secret model
     """
@@ -22,7 +22,7 @@ class Secret(models.Model):
                                                                        self.date_modified)
 
 
-class Client(models.Model):
+class ClientModel(models.Model):
     """
     This is the class for the Client model
     """

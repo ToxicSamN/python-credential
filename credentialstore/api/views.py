@@ -3,20 +3,20 @@
 from django.shortcuts import render
 from rest_framework import generics
 from .serializers import ClientListSerializer, ClientCreateSerializer, SecretListSerializer, SecretCreateSerializer
-from .models import Client, Secret
-# from .pystuffing.secret import Something
-# from .pystuffing.client import Something
+from .models import ClientModel, SecretModel
+from .pystuffing.secret import Secret
+from .pystuffing.client import Client
 
 
 class ClientListView(generics.ListAPIView):
     """This class defines the create behavior of our rest api."""
-    queryset = Client.objects.all()
+    queryset = ClientModel.objects.all()
     serializer_class = ClientListSerializer
 
 
 class ClientCreateView(generics.CreateAPIView):
 
-    queryset = Client.objects.all()
+    queryset = ClientModel.objects.all()
     serializer_class = ClientCreateSerializer
 
     def perform_create(self, serializer):
@@ -30,7 +30,7 @@ class SecretListView(generics.CreateAPIView):
         to the API and then it uses thi information to return the Credentials back
         in an encrypted message.
     """
-    queryset = Secret.objects.all()
+    queryset = SecretModel.objects.all()
     serializer_class = SecretListSerializer
 
     def create(self, request, *args, **kwargs):
@@ -39,7 +39,7 @@ class SecretListView(generics.CreateAPIView):
 
 class SecretCreateCreateView(generics.CreateAPIView):
 
-    queryset = Secret.objects.all()
+    queryset = SecretModel.objects.all()
     serializer_class = SecretCreateSerializer
 
     def perform_create(self, serializer):
