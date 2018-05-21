@@ -17,8 +17,8 @@ class SecretListSerializer(serializers.ModelSerializer):
         Map this serializer to a model and their fields.
         """
         model = SecretModel
-        fields = ('username', 'ClientId')
-        read_only_fields = ('password', 'date_created', 'date_modified')
+        fields = ('username', 'password')
+        read_only_fields = ('date_created', 'date_modified')
 
 
 class SecretCreateSerializer(serializers.ModelSerializer):
@@ -40,13 +40,18 @@ class ClientListSerializer(serializers.ModelSerializer):
     Serializer to map the Model instance into JSON format.
     """
 
+    secret = SecretListSerializer(read_only=True, many=True)
+
     class Meta:
         """
         Map this serializer to a model and their fields.
         """
         model = ClientModel
-        fields = ('pubkey', 'name')
+        fields = ('ClientId', 'pubkey', 'secret')
         read_only_fields = ('date_created', 'date_modified', 'ClientId')
+
+    def validate_user_access(self, username):
+        print('break')
 
 
 class ClientCreateSerializer(serializers.ModelSerializer):

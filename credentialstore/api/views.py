@@ -5,6 +5,7 @@ from functools import reduce
 from django.shortcuts import render
 from django.core import serializers, exceptions
 from django.core.serializers.json import DjangoJSONEncoder
+from django.db.models import Q
 from rest_framework import generics, status
 from rest_framework.response import Response
 from .serializers import ClientListSerializer, ClientCreateSerializer, SecretListSerializer, SecretCreateSerializer
@@ -16,16 +17,26 @@ from .pystuffing.client import Client
 class RealClientListView(generics.ListAPIView):
     queryset = ClientModel.objects.all()
     serializer_class = ClientListSerializer
+    decoder_ring = Secret()
 
     def get(self, request, *args, **kwargs):
         # invalid_lookup_fields MUST contain " ," in the list for the exception message to be correct
-        invalid_lookup_fields = ("name", "date_created", "date_modified", "id", " ,")
+        invalid_lookup_fields = ("name", "date_created", "date_modified", "id", "secret", " ,")
         if request.query_params and not [True for k in invalid_lookup_fields if
                                          request.query_params.dict().keys().__contains__(k)]:
             # The model.objects.filter will raise an exception if the user provides a field unknown to the model.
             #  Let's catch this and formulate ur own message on what a 'valid' field is
             try:
-                queryset = ClientModel.objects.filter(**request.query_params.dict())
+                # request.QueryDict is immutable, so copy the original QueryDict to mutable object
+                query_params = request.query_params.copy()
+
+                # pop out the username
+                secret_user = [query_params.pop(q) for q in request.query_params if q ==
+                               'username'][0]
+
+                SecretModel.validate_username(SecretModel, secret_user[0])
+
+                queryset = ClientModel.objects.filter(**query_params.dict())
             except exceptions.FieldError as e:
                 ziplist_b = [''] * len(invalid_lookup_fields)
                 zipped = zip(invalid_lookup_fields, ziplist_b)
@@ -46,6 +57,16 @@ class RealClientListView(generics.ListAPIView):
 
             if queryset:
                 serializer_q = ClientListSerializer(queryset, many=True)
+                # ClientModel.validate_user_access(ClientModel, secret_user[0])
+                for data in serializer_q.data:
+                    for secret in data['secret']:
+                        # check if the username matches what the query suggests
+                        if secret['username'] == secret_user[0]:
+                            s = self.decoder_ring.password_packaging(
+                                secret['password'], data['pubkey'], secret='dev')
+                            secret['password'] = s
+                        else:
+                            data['secret'].pop(secret)
                 return Response(serializer_q.data, status=status.HTTP_200_OK)
 
         return Response(["HTTP 400 BAD REQUEST", "Must provide a valid query"], status=status.HTTP_400_BAD_REQUEST)
