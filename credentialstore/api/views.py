@@ -30,13 +30,17 @@ class RealClientListView(generics.ListAPIView):
                 # request.QueryDict is immutable, so copy the original QueryDict to mutable object
                 query_params = request.query_params.copy()
 
-                # pop out the username
-                secret_user = [query_params.pop(q) for q in request.query_params if q ==
-                               'username'][0]
-
-                SecretModel.validate_username(SecretModel, secret_user[0])
+                for param in request.query_params:
+                    if param == 'secret__username':
+                        secret_user = request.query_params[param]
+                    elif param == 'username':
+                        secret_user = request.query_params[param]
+                        query_params.update({'secret__username': query_params.pop(param)[0]})
+                    else:
+                        secret_user = 'null'
 
                 queryset = ClientModel.objects.filter(**query_params.dict())
+                # queryset = ClientModel.objects.filter(**request.query_params.dict())
             except exceptions.FieldError as e:
                 ziplist_b = [''] * len(invalid_lookup_fields)
                 zipped = zip(invalid_lookup_fields, ziplist_b)
@@ -61,12 +65,12 @@ class RealClientListView(generics.ListAPIView):
                 for data in serializer_q.data:
                     for secret in data['secret']:
                         # check if the username matches what the query suggests
-                        if secret['username'] == secret_user[0]:
+                        if secret['username'] == secret_user:
                             s = self.decoder_ring.password_packaging(
                                 secret['password'], data['pubkey'], secret='dev')
                             secret['password'] = s
                         else:
-                            data['secret'].pop(secret)
+                            tmp = data['secret'].pop(data['secret'].index(secret))
                 return Response(serializer_q.data, status=status.HTTP_200_OK)
 
         return Response(["HTTP 400 BAD REQUEST", "Must provide a valid query"], status=status.HTTP_400_BAD_REQUEST)
