@@ -9,8 +9,8 @@ class SecretModel(models.Model):
     """
     This is the class for the Secret model
     """
-    username = models.CharField(max_length=65535, blank=False, unique=True)
-    password = models.CharField(max_length=65535, blank=False, unique=True, )
+    Username = models.CharField(max_length=65535, blank=False, unique=True)
+    Password = models.CharField(max_length=65535, blank=False, unique=True)
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
 
@@ -30,6 +30,7 @@ class SecretModel(models.Model):
             raise exceptions.ObjectDoesNotExist(
                 "No username '{}' exists in database.".format(username))
 
+
 class ClientModel(models.Model):
     """
     This is the class for the Client model
@@ -37,7 +38,7 @@ class ClientModel(models.Model):
     ClientId = models.CharField(max_length=65535, blank=False, unique=True)
     pubkey = models.TextField(max_length=65535, blank=False, unique=True)
     name = models.CharField(max_length=65535, blank=False)
-    secret = models.ManyToManyField(SecretModel)
+    secret = models.ManyToManyField(SecretModel, related_name='clients')
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
 
@@ -47,5 +48,9 @@ class ClientModel(models.Model):
         """
         return "ID: {}\nPublicKey: {}".format(self.id, self.pubkey)
 
-    def validate_user_access(self, username):
-        self.objects.get()
+
+class AdminModel(models.Model):
+
+    AdminId = models.CharField(max_length=256, blank=False, unique=True)
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
