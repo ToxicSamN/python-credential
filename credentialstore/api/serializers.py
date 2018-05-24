@@ -6,7 +6,6 @@ from rest_framework.response import Response
 from .models import SecretModel, ClientModel
 
 
-
 class SecretListSerializer(serializers.ModelSerializer):
     """
     Serializer to map the Model instance into JSON format.
@@ -17,21 +16,7 @@ class SecretListSerializer(serializers.ModelSerializer):
         Map this serializer to a model and their fields.
         """
         model = SecretModel
-        fields = ('username', 'password')
-        read_only_fields = ('date_created', 'date_modified')
-
-
-class SecretCreateSerializer(serializers.ModelSerializer):
-    """
-    Serializer to map the Model instance into JSON format.
-    """
-
-    class Meta:
-        """
-        Map this serializer to a model and their fields.
-        """
-        model = SecretModel
-        fields = ('username', 'password')
+        fields = ('Username', 'Password')
         read_only_fields = ('date_created', 'date_modified')
 
 
@@ -50,9 +35,6 @@ class ClientListSerializer(serializers.ModelSerializer):
         fields = ('ClientId', 'pubkey', 'secret')
         read_only_fields = ('date_created', 'date_modified', 'ClientId')
 
-    def validate_user_access(self, username):
-        print('break')
-
 
 class ClientCreateSerializer(serializers.ModelSerializer):
     """
@@ -66,3 +48,28 @@ class ClientCreateSerializer(serializers.ModelSerializer):
         model = ClientModel
         fields = ('ClientId', 'pubkey', 'name')
         read_only_fields = ('date_created', 'date_modified')
+
+
+class AdminClientSerializer(serializers.ModelSerializer):
+    """
+        Serializer to map the Model instance into JSON format.
+    """
+
+    class Meta:
+        """
+        Map this serializer to a model and their fields.
+        """
+        model = ClientModel
+        fields = ('ClientId', 'pubkey', 'name', 'date_created', 'date_modified')
+
+
+class AdminSecretClientListSerializer(serializers.ModelSerializer):
+
+    clients = AdminClientSerializer(read_only=True, many=True)
+
+    class Meta:
+        """
+        Map this serializer to a model and their fields.
+        """
+        model = SecretModel
+        fields = ('Username', 'clients', 'date_created', 'date_modified')
