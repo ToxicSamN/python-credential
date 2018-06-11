@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
+import ldap
+from django_auth_ldap.config import LDAPSearch, GroupOfUniqueNamesType
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -48,6 +50,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'api',
+    'login',
 ]
 
 MIDDLEWARE = [
@@ -110,6 +113,20 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTH_LDAP_SERVER_URI = "ldap://ldap0319.nordstrom.net"
+AUTH_LDAP_USER_DN_TEMPLATE = "uid=%(user)s,dc=nordstrom,dc=net"
+AUTH_LDAP_GROUP_SEARCH = LDAPSearch("dc=nordstrom,dc=net",
+                                    ldap.SCOPE_SUBTREE,
+                                    "(objectClass=GroupOfUniqueNames)")
+AUTH_LDAP_GROUP_TYPE = GroupOfUniqueNamesType()
+
+
+AUTHENTICATION_BACKENDS = (
+    'django_auth_ldap.backend.LDAPBackend',
+    'django.contrib.auth.backends.ModelBackend'
+)
+
+LOGIN_REDIRECT_URL = 'admin/'
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
