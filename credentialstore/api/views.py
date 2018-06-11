@@ -2,16 +2,15 @@
 
 import os
 from functools import reduce
-from django.shortcuts import render
-from django.core import serializers, exceptions
-from django.core.serializers.json import DjangoJSONEncoder
-from django.db.models import Q
+from django.core import exceptions
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 from rest_framework import generics, status
 from rest_framework.response import Response
-from .serializers import ClientListSerializer, SecretListSerializer, ClientCreateSerializer, AdminSecretClientListSerializer
+from .serializers import ClientListSerializer, SecretListSerializer, ClientCreateSerializer
+from .serializers import AdminClientListSerializer, AdminSecretClientListSerializer, AdminSecretSerializer
 from .models import ClientModel, SecretModel, AdminModel
 from .pystuffing.secret import Secret
-from .pystuffing.client import Client
 
 
 class ModelFieldError(exceptions.FieldError):
@@ -92,6 +91,7 @@ class GetCredentialView(generics.ListAPIView):
         self.return_response = Response(serializer_q.data, status=status.HTTP_200_OK)
 
 
+@method_decorator(login_required, name='dispatch')
 class CreateClientView(generics.CreateAPIView):
 
     queryset = ClientModel.objects.all()
@@ -105,9 +105,10 @@ class UpdateClientView(generics.UpdateAPIView):
     pass
 
 
+@method_decorator(login_required, name='dispatch')
 class AdminGetClientsView(generics.ListAPIView):
 
-    serializer_class = ClientListSerializer
+    serializer_class = AdminClientListSerializer
     model = ClientModel
     admin_model = AdminModel
 
@@ -137,9 +138,10 @@ class AdminGetClientsView(generics.ListAPIView):
         return self.return_response
 
 
+@method_decorator(login_required, name='dispatch')
 class AdminGetSecretsView(generics.ListAPIView):
 
-    serializer_class = SecretListSerializer
+    serializer_class = AdminSecretSerializer
     model = SecretModel
     admin_model = AdminModel
 
@@ -169,9 +171,10 @@ class AdminGetSecretsView(generics.ListAPIView):
         return self.return_response
 
 
+@method_decorator(login_required, name='dispatch')
 class AdminGetClientView(generics.ListAPIView):
 
-    serializer_class = ClientListSerializer
+    serializer_class = AdminClientListSerializer
     model = ClientModel
     admin_model = AdminModel
 
@@ -191,6 +194,13 @@ class AdminGetClientView(generics.ListAPIView):
 
                 admin_query = request.query_params.dict()
                 admin_query.__delitem__('ClientId')
+
+                try:
+                    admin_enabled = self.admin_model.objects.get(**admin_query)
+                except exceptions.ObjectDoesNotExist as e:
+                    self.return_response = Response(
+                        ["HTTP 400 BAD REQUEST", "{}".format("Admin only features have not been enabled")])
+
                 self.query_params = request.query_params.dict()
                 self.query_params.__delitem__('AdminId')
 
@@ -201,16 +211,17 @@ class AdminGetClientView(generics.ListAPIView):
                 self.return_response = Response(serializer_q.data, status=status.HTTP_200_OK)
             except exceptions.ObjectDoesNotExist as e:
                 self.return_response = Response(
-                    ["HTTP 400 BAD REQUEST", "{}".format("Admin Only features have not been enabled")])
+                    ["HTTP 400 BAD REQUEST", "{}".format("Object Not Found")])
             except exceptions.FieldError as e:
                 self.return_response = Response(["HTTP 400 BAD REQUEST", "{}".format(e.args[0])])
 
         return self.return_response
 
 
+@method_decorator(login_required, name='dispatch')
 class AdminGetSecretView(generics.ListAPIView):
 
-    serializer_class = SecretListSerializer
+    serializer_class = AdminSecretSerializer
     model = SecretModel
     admin_model = AdminModel
 
@@ -229,6 +240,13 @@ class AdminGetSecretView(generics.ListAPIView):
                 # if this entry is in the database then the feature is enabled and we will return all entries
                 admin_query = request.query_params.dict()
                 admin_query.__delitem__('Username')
+
+                try:
+                    admin_enabled = self.admin_model.objects.get(**admin_query)
+                except exceptions.ObjectDoesNotExist as e:
+                    self.return_response = Response(
+                        ["HTTP 400 BAD REQUEST", "{}".format("Object Not Found")])
+
                 self.query_params = request.query_params.dict()
                 self.query_params.__delitem__('AdminId')
 
@@ -244,6 +262,7 @@ class AdminGetSecretView(generics.ListAPIView):
         return self.return_response
 
 
+@method_decorator(login_required, name='dispatch')
 class AdminGetSecretClientsView(generics.ListAPIView):
 
     serializer_class = AdminSecretClientListSerializer
@@ -251,7 +270,6 @@ class AdminGetSecretClientsView(generics.ListAPIView):
     admin_model = AdminModel
 
     def __init__(self):
-        self.secret_user = 'null'
         self.query_params = None
         self.return_response = Response(["HTTP 400 BAD REQUEST", "Must provide a valid query"],
                                         status=status.HTTP_400_BAD_REQUEST)
@@ -266,6 +284,13 @@ class AdminGetSecretClientsView(generics.ListAPIView):
                 # if this entry is in the database then the feature is enabled and we will return all entries
                 admin_query = request.query_params.dict()
                 admin_query.__delitem__('Username')
+
+                try:
+                    admin_enabled = self.admin_model.objects.get(**admin_query)
+                except exceptions.ObjectDoesNotExist as e:
+                    self.return_response = Response(
+                        ["HTTP 400 BAD REQUEST", "{}".format("Admin only features have not been enabled")])
+
                 self.query_params = request.query_params.dict()
                 self.query_params.__delitem__('AdminId')
 
@@ -274,43 +299,90 @@ class AdminGetSecretClientsView(generics.ListAPIView):
                 self.return_response = Response(serializer_q.data, status=status.HTTP_200_OK)
             except exceptions.ObjectDoesNotExist as e:
                 self.return_response = Response(
-                    ["HTTP 400 BAD REQUEST", "{}".format("Admin Only features have not been enabled")])
-
-        return self.return_response
-
-    def delete(self, request, *args, **kwargs):
-
-        if request.query_params and request.query_params['AdminId'] == os.environ['DJANGO_SECRET']:
-            try:
-                # control the admin features by whether or not the DJANGO_SECRET is added to the database as a client
-                # if this get raises an error then the admin features are not enable
-                # if this entry is in the database then the feature is enabled and we will return all entries
-                admin_enabled = self.model.objects.get(**request.query_params.dict())
-
-                #self.queryset = self.mode
-                self.queryset.delete()
-                # self.serializer_class.save()
-
-            except exceptions.ObjectDoesNotExist as e:
-                self.return_response = Response(
-                    ["HTTP 400 BAD REQUEST", "{}".format("Admin Only features have not been enabled")])
+                    ["HTTP 400 BAD REQUEST", "{}".format("Object Not Found")])
 
         return self.return_response
 
 
+@method_decorator(login_required, name='dispatch')
 class AdminDeleteClient(generics.DestroyAPIView):
 
     serializer_class = ClientListSerializer
     model = ClientModel
     admin_model = AdminModel
 
-    pass
+    def __init__(self):
+        self.query_params = None
+        self.return_response = Response(["HTTP 400 BAD REQUEST", "Must provide a valid query"],
+                                        status=status.HTTP_400_BAD_REQUEST)
+        super().__init__()
+
+    def destroy(self, request, *args, **kwargs):
+
+        if request.query_params and request.query_params['AdminId'] == os.environ['DJANGO_SECRET']:
+            try:
+                # control the admin features by whether or not the DJANGO_SECRET is added to the database as a client
+                # if this get raises an error then the admin features are not enable
+                # if this entry is in the database then the feature is enabled and we will return all entries
+                admin_query = request.query_params.dict()
+                admin_query.__delitem__('ClientId')
+
+                try:
+                    admin_enabled = self.admin_model.objects.get(**admin_query)
+                except exceptions.ObjectDoesNotExist as e:
+                    self.return_response = Response(
+                        ["HTTP 400 BAD REQUEST", "{}".format("Admin only features have not been enabled")])
+
+                self.query_params = request.query_params.dict()
+                self.query_params.__delitem__('AdminId')
+
+                self.queryset = self.model.objects.get(**self.query_params)
+                self.perform_destroy(self.queryset)
+                self.return_response = Response(status=status.HTTP_204_NO_CONTENT)
+            except exceptions.ObjectDoesNotExist as e:
+                self.return_response = Response(
+                    ["HTTP 400 BAD REQUEST", "{}".format("Object Not Found")])
+
+        return self.return_response
 
 
+@method_decorator(login_required, name='dispatch')
 class AdminDeleteSecret(generics.DestroyAPIView):
 
     serializer_class = SecretListSerializer
     model = SecretModel
     admin_model = AdminModel
 
-    pass
+    def __init__(self):
+        self.query_params = None
+        self.return_response = Response(["HTTP 400 BAD REQUEST", "Must provide a valid query"],
+                                        status=status.HTTP_400_BAD_REQUEST)
+        super().__init__()
+
+    def destroy(self, request, *args, **kwargs):
+
+        if request.query_params and request.query_params['AdminId'] == os.environ['DJANGO_SECRET']:
+            try:
+                # control the admin features by whether or not the DJANGO_SECRET is added to the database as a client
+                # if this get raises an error then the admin features are not enable
+                # if this entry is in the database then the feature is enabled and we will return all entries
+                admin_query = request.query_params.dict()
+                admin_query.__delitem__('Username')
+
+                try:
+                    admin_enabled = self.admin_model.objects.get(**admin_query)
+                except exceptions.ObjectDoesNotExist as e:
+                    self.return_response = Response(
+                        ["HTTP 400 BAD REQUEST", "{}".format("Admin only features have not been enabled")])
+
+                self.query_params = request.query_params.dict()
+                self.query_params.__delitem__('AdminId')
+
+                self.queryset = self.model.objects.get(**self.query_params)
+                self.perform_destroy(self.queryset)
+                self.return_response = Response(status=status.HTTP_204_NO_CONTENT)
+            except exceptions.ObjectDoesNotExist as e:
+                self.return_response = Response(
+                    ["HTTP 400 BAD REQUEST", "{}".format("Object Not Found")])
+
+        return self.return_response

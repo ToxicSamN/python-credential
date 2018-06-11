@@ -20,6 +20,7 @@ from django.urls import path
 from django.conf.urls import url, include
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    url(r'credentialstore/', include('api.urls'))  # Add this line
+    url('admin/', admin.site.urls, name='admin'),
+    url(r'credentialstore/', include('api.urls')),
+    url(r'^', include('login.urls')),
 ]
