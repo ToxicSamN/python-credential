@@ -2,7 +2,8 @@
 
 from django.conf.urls import url, include
 from rest_framework.urlpatterns import format_suffix_patterns
-from .views import GetCredentialView, CreateClientView, UpdateClientView, AdminGetClientsView, AdminGetClientView
+from .views import GetCredentialView, AdminGetClientsView, AdminGetClientView
+from.frontend_views import CreateClientView, UpdateClientView
 from .views import AdminGetSecretsView, AdminGetSecretView, AdminGetSecretClientsView
 from .views import AdminDeleteClient, AdminDeleteSecret
 
