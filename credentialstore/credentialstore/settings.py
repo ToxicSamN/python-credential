@@ -12,7 +12,36 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 
 import os
 import ldap
-from django_auth_ldap.config import LDAPSearch, GroupOfUniqueNamesType
+from django_auth_ldap.config import LDAPSearch, LDAPSearchUnion, NestedActiveDirectoryGroupType
+
+
+# Setup the Logging handlers
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler'
+        },
+        'stream_to_console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler'
+        },
+    },
+    'loggers': {
+        'django.request': {
+            'handlers': ['mail_admins'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+        'django_auth_ldap': {
+            'handlers': ['stream_to_console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    }
+}
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -36,7 +65,15 @@ print('DEBUG Enabled: {}'.format(DEBUG))
 # attacks. If you use a wildcard, you must perform your own validation
 # of the Host HTTP header, or otherwise ensure that you aren’t vulnerable
 # to this category of attacks
-ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = ['*']
+
+
+# HTTPS Settings
+
+#SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+#SECURE_SSL_REDIRECT = True
+#SESSION_COOKIE_SECURE = True
+#CSRF_COOKIE_SECURE = True
 
 
 # Application definition
@@ -50,7 +87,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'api',
-    'login',
+    'accounts',
 ]
 
 MIDDLEWARE = [
@@ -68,7 +105,7 @@ ROOT_URLCONF = 'credentialstore.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -113,20 +150,59 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTH_LDAP_SERVER_URI = "ldap://ldap0319.nordstrom.net"
-AUTH_LDAP_USER_DN_TEMPLATE = "uid=%(user)s,dc=nordstrom,dc=net"
-AUTH_LDAP_GROUP_SEARCH = LDAPSearch("dc=nordstrom,dc=net",
-                                    ldap.SCOPE_SUBTREE,
-                                    "(objectClass=GroupOfUniqueNames)")
-AUTH_LDAP_GROUP_TYPE = GroupOfUniqueNamesType()
+# django_auth_ldap
+AUTH_LDAP_SERVER_URI = os.environ['LDAP_URI']  # dev parameter only
+AD_CERT_FILE = os.path.join(BASE_DIR, 'rootCA.cer')
+ldap.set_option(ldap.OPT_PROTOCOL_VERSION, 3)
+ldap.set_option(ldap.OPT_X_TLS_REQUIRE_CERT, ldap.OPT_X_TLS_NEVER)
+ldap.set_option(ldap.OPT_X_TLS_CACERTFILE, AD_CERT_FILE)
+# LDAP_IGNORE_CERT_ERRORS = True
 
+AUTH_LDAP_BIND_DN = os.environ['BIND_ACCOUNT']  # dev parameter only
+AUTH_LDAP_BIND_PASSWORD = os.environ['BIND_PASSWD']  # dev parameter only
+
+AUTH_LDAP_USER_SEARCH = LDAPSearchUnion(
+    LDAPSearch(os.environ['LD_Search1'],  # dev parameter only
+               ldap.SCOPE_SUBTREE,
+               "(sAMAccountName=%(user)s)"),
+    LDAPSearch(os.environ['LD_Search1'],  # dev parameter only
+               ldap.SCOPE_SUBTREE,
+               "(sAMAccountName=%(user)s)"),
+)
+AUTH_LDAP_ALWAYS_UPDATE_USER = True
+AUTH_LDAP_USER_ATTR_MAP = {
+    "first_name": "givenName",
+    "last_name": "sn",
+    "email": "mail"
+}
+
+AUTH_LDAP_GROUP_SEARCH = LDAPSearch(os.environ['LD_GRP_SEARCH'],  # dev parameter only
+                                    ldap.SCOPE_SUBTREE,
+                                    "(objectClass=group)")
+AUTH_LDAP_USER_FLAGS_BY_GROUP = {
+    'is_active': os.environ['LD_ACTIVE'],  # dev parameter only
+    'is_staff': os.environ['LD_STAFF'],  # dev parameter only
+    'is_superuser': os.environ['LD_SUPER'],  # dev parameter only
+}
+
+AUTH_LDAP_GROUP_TYPE = NestedActiveDirectoryGroupType()
+AUTH_LDAP_FIND_GROUP_PERMS = True
+AUTH_LDAP_REQUIRE_GROUP = "cn=credstore_users,ou=Groups,ou=Accounts,dc=nordstrom,dc=net"  # dev parameter only
+AUTH_LDAP_CACHE_GROUPS = True
+AUTH_LDAP_GROUP_CACHE_TIMEOUT = 3600
+
+AUTH_LDAP_CONNECTION_OPTIONS = {
+    ldap.OPT_DEBUG_LEVEL: 0,
+    ldap.OPT_REFERRALS: 0,
+}
 
 AUTHENTICATION_BACKENDS = (
     'django_auth_ldap.backend.LDAPBackend',
     'django.contrib.auth.backends.ModelBackend'
 )
 
-LOGIN_REDIRECT_URL = 'admin/'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
@@ -146,4 +222,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, "assets"),
+)
 STATIC_ROOT = os.path.join(BASE_DIR, "static/")

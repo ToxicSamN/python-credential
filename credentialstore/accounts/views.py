@@ -1,6 +1,4 @@
-# auth/views.py
-
-import os
+from django.shortcuts import render
 from functools import reduce
 from django.core import exceptions
 from django.http import HttpResponse
@@ -9,34 +7,29 @@ from rest_framework.views import APIView, View
 from rest_framework.response import Response
 from rest_framework.renderers import TemplateHTMLRenderer
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.utils.decorators import method_decorator
 
 
-
-class login(LoginRequiredMixin, View):
-    login_url = 'admin/'
-    redirect_field_name = 'redirect_to'
-
-
-class homepage(APIView):
+class SignupView(APIView):
     renderer_classes = [TemplateHTMLRenderer]
-    template_name = "home.html"
-
-    def get(self, request):
-        return Response(template_name=self.template_name)
-
-class aboutpage(APIView):
-    renderer_classes = [TemplateHTMLRenderer]
-    template_name = "about.html"
+    template_name = "accounts/signup.html"
 
     def get(self, request):
         return Response(template_name=self.template_name)
 
 
-def public(request):
-    return HttpResponse("Welcome to PUBLIC Page")
+class LoginView(APIView):
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = "registration/login.html"
+
+    def get(self, request):
+        return Response(template_name=self.template_name)
 
 
-@login_required
-def private(request):
-    return HttpResponse("Welcome to Private Page")
+@method_decorator(login_required(login_url='accounts/login/'), name='dispatch')
+class HomePage(APIView):
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = "accounts/home.html"
+
+    def get(self, request):
+        return Response(template_name=self.template_name)
