@@ -107,7 +107,7 @@ ENV/
 .mypy_cache/
 
 # Certificates
-.cer
-.crt
-.p7b
-.pem
+*.cer
+*.crt
+*.p7b
+*.pem
