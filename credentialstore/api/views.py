@@ -94,22 +94,6 @@ class GetCredentialView(generics.ListAPIView):
         self.return_response = Response(serializer_q.data, status=status.HTTP_200_OK)
 
 
-@method_decorator(create_login_required, name='dispatch')
-class CreateClientView(generics.CreateAPIView):
-
-    queryset = ClientModel.objects.all()
-    serializer_class = ClientCreateSerializer
-
-    def perform_create(self, serializer):
-        serializer.save()
-
-
-@method_decorator(update_login_required, name='dispatch')
-class UpdateClientView(generics.UpdateAPIView):
-
-    queryset = ClientModel.objects.all()
-    serializer_class = ClientCreateSerializer
-    # renderer_classes = [CredStoreBrowsableAPIRenderer]
 
 
 @method_decorator(admin_login_required, name='dispatch')

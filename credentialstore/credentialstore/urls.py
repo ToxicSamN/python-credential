@@ -14,7 +14,7 @@ urlpatterns = [
     url(r'credentialstore/', include('api.urls')),
     url(r'^', include('accounts.urls')),
     url(r'^accounts/', include('accounts.urls')),
-    url(r'^login/$', login, {'template_name': 'registration/login.html', 'authentication_form': LoginForm}),
+    url(r'^login/$', login, {'next_page': '/home.htm', 'template_name': 'registration/login.html', 'authentication_form': LoginForm}),
     url(r'^logout/$', logout, {'next_page': '/accounts/login'}),
 ]
 
