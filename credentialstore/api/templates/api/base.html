@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load i18n %}
+{% load rest_framework %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    {% block head %}
+      {% block meta %}
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <meta name="robots" content="NONE,NOARCHIVE" />
+      {% endblock %}
+    {% endblock %}
+  </head>
+
+  {% block body %}
+  <body class="{% block bodyclass %}{% endblock %}">
+
+    <div class="wrapper">
+      {% block navbar %}
+        <div class="navbar navbar-static-top {% block bootstrap_navbar_variant %}navbar-inverse{% endblock %}"
+             role="navigation" aria-label="{% trans "navbar" %}">
+          <div class="container">
+            <ul class="nav navbar-nav pull-right">
+              {% block userlinks %}
+                {% if user.is_authenticated %}
+                  {% optional_logout request user %}
+                {% else %}
+                  {% optional_login request %}
+                {% endif %}
+              {% endblock %}
+            </ul>
+          </div>
+        </div>
+      {% endblock %}
+
+      <div class="container">
+        {% block breadcrumbs %}
+          <ul class="breadcrumb">
+            {% for breadcrumb_name, breadcrumb_url in breadcrumblist %}
+              {% if forloop.last %}
+                <li class="active"><a href="{{ breadcrumb_url }}">{{ breadcrumb_name }}</a></li>
+              {% else %}
+                <li><a href="{{ breadcrumb_url }}">{{ breadcrumb_name }}</a></li>
+              {% endif %}
+            {% empty %}
+              {% block breadcrumbs_empty %}&nbsp;{% endblock breadcrumbs_empty %}
+            {% endfor %}
+          </ul>
+        {% endblock %}
+
+        <!-- Content -->
+        <div id="content" role="main" aria-label="{% trans "content" %}">
+          {% block content %}
+              <div class="container">
+                  <!--<div class="row">-->
+                      <div class="jumbotron">
+                        <div class="content-main" role="main"  aria-label="{% trans "main content" %}">
+                          <div class="page-header">
+                            <h1>{{ name }}</h1>
+                          </div>
+                          <div style="float:left">
+                            {% block description %}
+                              {{ description }}
+                            {% endblock %}
+                          </div>
+
+                          {% if paginator %}
+                            <nav style="float: right">
+                              {% get_pagination_html paginator %}
+                            </nav>
+                          {% endif %}
+
+                          <div class="request-info" style="clear: both" aria-label="{% trans "request info" %}">
+                            <pre class="prettyprint"><b>{{ request.method }}</b> {{ request.get_full_path }}</pre>
+                          </div>
+
+                          <div class="response-info" aria-label="{% trans "response info" %}">
+                            <pre class="prettyprint"><span class="meta nocode"><b>HTTP {{ response.status_code }} {{ response.status_text }}</b>{% autoescape off %}{% for key, val in response_headers|items %}
+            <b>{{ key }}:</b> <span class="lit">{{ val|break_long_headers|urlize_quoted_links }}</span>{% endfor %}
+
+            </span>{{ content|urlize_quoted_links }}</pre>{% endautoescape %}
+                          </div>
+                        <!--</div>-->
+                    </div>
+                </div>
+              </div>
+          {% endblock content %}
+        </div><!-- /.content -->
+      </div><!-- /.container -->
+    </div><!-- ./wrapper -->
+
+    {% if filter_form %}
+      {{ filter_form }}
+    {% endif %}
+
+    {% block script %}
+      <script>
+        window.drf = {
+          csrfHeaderName: "{{ csrf_header_name|default:'X-CSRFToken' }}",
+          csrfCookieName: "{{ csrf_cookie_name|default:'csrftoken' }}"
+        };
+      </script>
+      <script src="{% static "rest_framework/js/jquery-3.3.1.min.js" %}"></script>
+      <script src="{% static "rest_framework/js/ajax-form.js" %}"></script>
+      <script src="{% static "rest_framework/js/csrf.js" %}"></script>
+      <script src="{% static "rest_framework/js/bootstrap.min.js" %}"></script>
+      <script src="{% static "rest_framework/js/prettify-min.js" %}"></script>
+      <script src="{% static "rest_framework/js/default.js" %}"></script>
+      <script>
+        $(document).ready(function() {
+          $('form').ajaxForm();
+        });
+      </script>
+    {% endblock %}
+
+  </body>
+  {% endblock %}
+</html>

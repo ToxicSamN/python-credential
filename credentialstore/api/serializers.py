@@ -103,11 +103,11 @@ class AdminSecretClientListSerializer(serializers.ModelSerializer):
         fields = ('Username', 'clients', 'date_created', 'date_modified')
 
 
-class AdminList(serializers.ModelSerializer):
-
-    class Meta:
-        """
-        Map this serializer to a model and their fields.
-        """
-        model = AdminModel
-        fields = ('AdminId', 'date_created', 'date_modified')
+# class AdminList(serializers.ModelSerializer):
+#
+#     class Meta:
+#         """
+#         Map this serializer to a model and their fields.
+#         """
+#         model = AdminModel
+#         fields = ('AdminId', 'date_created', 'date_modified')

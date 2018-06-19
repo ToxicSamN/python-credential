@@ -10,7 +10,7 @@ from .views import AdminDeleteClient, AdminDeleteSecret
 urlpatterns = {
     url(r'^GetCredential$', GetCredentialView.as_view(), name="get_cred"),
     url(r'^CreateClient$', CreateClientView.as_view(), name="create_client"),
-    url(r'^UpdateClient$', UpdateClientView.as_view(), name="create_client"),
+    url(r'^UpdateClient$', UpdateClientView.as_view(), name="update_client"),
     url(r'^admin/GetAllClients$', AdminGetClientsView.as_view(), name="adm_all_clients"),
     url(r'^admin/GetAllSecrets$', AdminGetSecretsView.as_view(), name="adm_all_secrets"),
     url(r'^admin/GetClient$', AdminGetClientView.as_view(), name="adm_client"),
