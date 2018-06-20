@@ -48,8 +48,11 @@ LOGGING = {
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+ENV_FILE = os.path.join('credentialstore', 'environment.conf')
 
-parser.read(os.path.join(os.path.join(BASE_DIR, 'credentialstore')).join('environment.conf'))
+print(os.path.join(BASE_DIR, ENV_FILE))
+
+parser.read(os.path.join(BASE_DIR, ENV_FILE))
 settings_dict = parser.__dict__['_sections']['ENV']
 
 # Quick-start development settings - unsuitable for production
