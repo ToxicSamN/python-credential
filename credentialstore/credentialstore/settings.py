@@ -60,6 +60,7 @@ settings_dict = parser.__dict__['_sections']['ENV']
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = settings_dict['django_secret']
+os.environ['DJANGO_SECRET'] = SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
