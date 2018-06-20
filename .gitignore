@@ -55,7 +55,7 @@ coverage.xml
 *.pot
 
 # Django stuff:
-environment.conf
+*.conf
 *.log
 local_settings.py
 *.sqlite3
