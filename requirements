@@ -4,6 +4,8 @@ Django==2.0.5
 django-auth-ldap==1.5.0
 djangorestframework==3.8.2
 idna==2.6
+mod-wsgi==4.6.4
+mod-wsgi-httpd==2.4.27.1
 pyasn1==0.4.2
 pyasn1-modules==0.2.1
 pycryptodome==3.6.1
