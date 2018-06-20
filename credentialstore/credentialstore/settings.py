@@ -54,6 +54,8 @@ print(os.path.join(BASE_DIR, ENV_FILE))
 
 parser.read(os.path.join(BASE_DIR, ENV_FILE))
 settings_dict = parser.__dict__['_sections']['ENV']
+print('ENVIRONMENT CONF')
+print(settings_dict)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
@@ -65,7 +67,7 @@ os.environ['RSA_PRIV'] = settings_dict['rsa_priv']
 os.environ['RSA_PUB'] = settings_dict['rsa_pub']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 if settings_dict.get('django_debug', None):
     if settings_dict['django_debug'] == "True":
         DEBUG = True
