@@ -55,7 +55,6 @@ coverage.xml
 *.pot
 
 # Django stuff:
-*.conf
 *.log
 local_settings.py
 *.sqlite3
@@ -112,3 +111,5 @@ ENV/
 *.crt
 *.p7b
 *.pem
+
+*environment.conf
