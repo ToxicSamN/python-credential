@@ -66,7 +66,7 @@ os.environ['RSA_PUB'] = settings_dict['rsa_pub']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
-if settings_dict.get('django_debug'):
+if settings_dict.get('django_debug', None):
     if settings_dict['django_debug'] == "True":
         DEBUG = True
 
