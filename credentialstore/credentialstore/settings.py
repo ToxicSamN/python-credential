@@ -12,8 +12,11 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 
 import os
 import ldap
+from configparser import ConfigParser
 from django_auth_ldap.config import LDAPSearch, LDAPSearchUnion, NestedActiveDirectoryGroupType
 
+
+parser = ConfigParser()
 
 # Setup the Logging handlers
 LOGGING = {
@@ -45,18 +48,20 @@ LOGGING = {
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-print (os.environ)
+
+parser.read(os.path.join(BASE_DIR, 'environment.conf'))
+settings_dict = parser.__dict__['_sections']['ENV']
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ['DJANGO_SECRET']
+SECRET_KEY = settings_dict['django_secret']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
-if os.environ.get('DJANGO_DEBUG'):
-    if os.environ['DJANGO_DEBUG'] == "True":
+if settings_dict.get('django_debug'):
+    if settings_dict['django_debug'] == "True":
         DEBUG = True
 
 print('DEBUG Enabled: {}'.format(DEBUG))
@@ -151,21 +156,21 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 # django_auth_ldap
-AUTH_LDAP_SERVER_URI = os.environ['LDAP_URI']  # dev parameter only
+AUTH_LDAP_SERVER_URI = settings_dict['ldap_uri']  # dev parameter only
 AD_CERT_FILE = os.path.join(BASE_DIR, '/etc/pki/tls/certs/cert.crt')
 ldap.set_option(ldap.OPT_PROTOCOL_VERSION, 3)
 ldap.set_option(ldap.OPT_X_TLS_REQUIRE_CERT, ldap.OPT_X_TLS_ALLOW)
 ldap.set_option(ldap.OPT_X_TLS_CACERTFILE, AD_CERT_FILE)
 # LDAP_IGNORE_CERT_ERRORS = True
 
-AUTH_LDAP_BIND_DN = os.environ['BIND_ACCOUNT']  # dev parameter only
-AUTH_LDAP_BIND_PASSWORD = os.environ['BIND_PASSWD']  # dev parameter only
+AUTH_LDAP_BIND_DN = settings_dict['bind_account']  # dev parameter only
+AUTH_LDAP_BIND_PASSWORD = settings_dict['bind_passwd']  # dev parameter only
 
 AUTH_LDAP_USER_SEARCH = LDAPSearchUnion(
-    LDAPSearch(os.environ['LD_SEARCH1'],  # dev parameter only
+    LDAPSearch(settings_dict['ldap_search1'],  # dev parameter only
                ldap.SCOPE_SUBTREE,
                "(sAMAccountName=%(user)s)"),
-    LDAPSearch(os.environ['LD_SEARCH2'],  # dev parameter only
+    LDAPSearch(settings_dict['ldap_search2'],  # dev parameter only
                ldap.SCOPE_SUBTREE,
                "(sAMAccountName=%(user)s)"),
 )
@@ -176,18 +181,18 @@ AUTH_LDAP_USER_ATTR_MAP = {
     "email": "mail"
 }
 
-AUTH_LDAP_GROUP_SEARCH = LDAPSearch(os.environ['LD_GRP_SEARCH'],  # dev parameter only
+AUTH_LDAP_GROUP_SEARCH = LDAPSearch(settings_dict['ldap_grp_search'],  # dev parameter only
                                     ldap.SCOPE_SUBTREE,
                                     "(objectClass=group)")
 AUTH_LDAP_USER_FLAGS_BY_GROUP = {
-    'is_active': os.environ['LD_ACTIVE'],  # dev parameter only
-    'is_staff': os.environ['LD_STAFF'],  # dev parameter only
-    'is_superuser': os.environ['LD_SUPER'],  # dev parameter only
+    'is_active': settings_dict['ldap_active'],  # dev parameter only
+    'is_staff': settings_dict['ldap_staff'],  # dev parameter only
+    'is_superuser': settings_dict['ldap_super'],  # dev parameter only
 }
 
 AUTH_LDAP_GROUP_TYPE = NestedActiveDirectoryGroupType()
 AUTH_LDAP_FIND_GROUP_PERMS = True
-AUTH_LDAP_REQUIRE_GROUP = os.environ['LD_ACTIVE']  # dev parameter only
+AUTH_LDAP_REQUIRE_GROUP = settings_dict['ldap_active']  # dev parameter only
 AUTH_LDAP_CACHE_GROUPS = True
 AUTH_LDAP_GROUP_CACHE_TIMEOUT = 3600
 
