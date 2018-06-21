@@ -118,7 +118,8 @@ ROOT_URLCONF = 'credentialstore.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['templates', 'credentialstore.templates'],
+        'DIRS': ['templates'],
+        'DIRS': [BASE_DIR + '/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
