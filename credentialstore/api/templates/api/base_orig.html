@@ -3,14 +3,11 @@
 {% load i18n %}
 {% load rest_framework %}
 
-{% block style %}
+
 {% block bootstrap_theme %}
   <link rel="stylesheet" type="text/css" href="{% static "rest_framework/css/bootstrap-tweaks.css" %}"/>
 {% endblock %}
 
-
-{% if code_style %}<style>{{ code_style }}</style>{% endif %}
-{% endblock %}
 
   {% block body %}
   <body class="{% block bodyclass %}{% endblock %}">
