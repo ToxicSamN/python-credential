@@ -24,7 +24,7 @@ class CreateClientView(generics.CreateAPIView):
 
 
 @method_decorator(update_login_required, name='dispatch')
-class UpdateClientView(generics.UpdateAPIView):
+class UpdateClientView(generics.RetrieveUpdateDestroyAPIView):
 
     queryset = ClientModel.objects.all()
     serializer_class = ClientCreateSerializer
