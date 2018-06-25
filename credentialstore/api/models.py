@@ -9,8 +9,8 @@ class SecretModel(models.Model):
     """
     This is the class for the Secret model
     """
-    Username = models.CharField(max_length=65535, blank=False, unique=True)
-    Password = models.CharField(max_length=65535, blank=False, unique=True)
+    username = models.CharField(max_length=65535, blank=False, unique=True)
+    password = models.CharField(max_length=65535, blank=False, unique=True)
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
 
