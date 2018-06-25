@@ -1,31 +1,16 @@
+{% extends "base.html" %}
 {% load static %}
 {% load i18n %}
 {% load rest_framework %}
 
-<!DOCTYPE html>
-<html>
-  <head>
-    {% block head %}
-
-      {% block meta %}
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-        <meta name="robots" content="NONE,NOARCHIVE" />
-      {% endblock %}
-
-      <title>{% block title %}{% if name %}{{ name }} – {% endif %}Django REST framework{% endblock %}</title>
-
-      {% block style %}
-        {% block bootstrap_theme %}
-          <link rel="stylesheet" type="text/css" href="{% static "css/lux_bootstrap.min.css" %}"/>
-          <link rel="stylesheet" type="text/css" href="{% static "rest_framework/css/bootstrap-tweaks.css" %}"/>
-        {% endblock %}
+{% block style %}
+{% block bootstrap_theme %}
+  <link rel="stylesheet" type="text/css" href="{% static "rest_framework/css/bootstrap-tweaks.css" %}"/>
+{% endblock %}
 
 
-        {% if code_style %}<style>{{ code_style }}</style>{% endif %}
-      {% endblock %}
-
-    {% endblock %}
-  </head>
+{% if code_style %}<style>{{ code_style }}</style>{% endif %}
+{% endblock %}
 
   {% block body %}
   <body class="{% block bodyclass %}{% endblock %}">
@@ -36,11 +21,6 @@
              role="navigation" aria-label="{% trans "navbar" %}">
           <div class="container">
             <span>
-              {% block branding %}
-                <a class='navbar-brand' rel="nofollow" href='http://www.django-rest-framework.org'>
-                    Django REST framework
-                </a>
-              {% endblock %}
             </span>
             <ul class="nav navbar-nav pull-right">
               {% block userlinks %}
@@ -56,19 +36,7 @@
       {% endblock %}
 
       <div class="container">
-        {% block breadcrumbs %}
-          <ul class="breadcrumb">
-            {% for breadcrumb_name, breadcrumb_url in breadcrumblist %}
-              {% if forloop.last %}
-                <li class="active"><a href="{{ breadcrumb_url }}">{{ breadcrumb_name }}</a></li>
-              {% else %}
-                <li><a href="{{ breadcrumb_url }}">{{ breadcrumb_name }}</a></li>
-              {% endif %}
-            {% empty %}
-              {% block breadcrumbs_empty %}&nbsp;{% endblock breadcrumbs_empty %}
-            {% endfor %}
-          </ul>
-        {% endblock %}
+
 
         <!-- Content -->
         <div id="content" role="main" aria-label="{% trans "content" %}">
