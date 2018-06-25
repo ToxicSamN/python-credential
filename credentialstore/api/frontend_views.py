@@ -28,4 +28,4 @@ class UpdateClientView(generics.UpdateAPIView):
 
     queryset = ClientModel.objects.all()
     serializer_class = ClientCreateSerializer
-    # renderer_classes = [CredStoreBrowsableAPIRenderer]
+    renderer_classes = [CredStoreBrowsableAPIRenderer]
