@@ -14,7 +14,7 @@ class SecretListSerializer(serializers.ModelSerializer):
         Map this serializer to a model and their fields.
         """
         model = SecretModel
-        fields = ('Username', 'Password')
+        fields = ('username', 'password')
         read_only_fields = ('date_created', 'date_modified')
 
 
@@ -58,7 +58,7 @@ class AdminSecretSerializer(serializers.ModelSerializer):
         Map this serializer to a model and their fields.
         """
         model = SecretModel
-        fields = ('Username', 'Password', 'date_created', 'date_modified')
+        fields = ('username', 'password', 'date_created', 'date_modified')
         read_only_fields = ()
 
 
@@ -100,7 +100,7 @@ class AdminSecretClientListSerializer(serializers.ModelSerializer):
         Map this serializer to a model and their fields.
         """
         model = SecretModel
-        fields = ('Username', 'clients', 'date_created', 'date_modified')
+        fields = ('username', 'clients', 'date_created', 'date_modified')
 
 
 # class AdminList(serializers.ModelSerializer):
