@@ -3,6 +3,7 @@
 <html lang="{{ LANGUAGE_CODE|default:"en-us" }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
 <head>
 <link rel="stylesheet" type="text/css" href="{% block stylesheet %}{% static "css/lux_bootstrap.min.css" %}{% endblock %}" />
+<link rel="stylesheet" type="text/css" href="{% block stylesheet %}{% static "css/lux_bootstrap.min.css" %}{% endblock %}" />
 {% block extrastyle %}{% endblock %}
 {% if LANGUAGE_BIDI %}<link rel="stylesheet" type="text/css" href="{% block stylesheet_rtl %}{% static "admin/css/rtl.css" %}{% endblock %}" />{% endif %}
 {% block extrahead %}{% endblock %}
@@ -87,6 +88,12 @@
     {% block footer %}<div id="footer"></div>{% endblock %}
 </div>
 <!-- END Container -->
+ <!-- Core Scripts - Include with every page -->
+        <script src = "{% static 'js/jquery.min.js' %}"></script>
+        <script src = "{% static 'js/bootstrap.min.js' %}"></script>
+        <script src = "{% static 'js/popper.min.js' %}"></script>
+    {% block javascript %}
+    {% endblock %}
 
 </body>
 </html>
