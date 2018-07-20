@@ -1,3 +1,39 @@
+@import url("https://fonts.googleapis.com/css?family=Nunito+Sans:400,600");
+
+root {
+    --blue:#007bff;
+    --indigo:#6610f2;
+    --purple:#6f42c1;
+    --pink:#e83e8c;
+    --red:#d9534f;
+    --orange:#fd7e14;
+    --yellow:#f0ad4e;
+    --green:#4BBF73;
+    --teal:#20c997;
+    --cyan:#1F9BCF;
+    --white:#fff;
+    --gray:#919aa1;
+    --gray-dark:#343a40;
+    --primary:#1a1a1a;
+    --secondary:#fff;
+    --success:#4BBF73;
+    --info:#1F9BCF;
+    --warning:#f0ad4e;
+    --danger:#d9534f;
+    --light:#fff;
+    --dark:#343a40;
+    --breakpoint-xs:0;
+    --breakpoint-sm:576px;
+    --breakpoint-md:768px;
+    --breakpoint-lg:992px;
+    --breakpoint-xl:1200px;
+    --font-family-sans-serif:"Nunito Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    --font-family-monospace:SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace
+}
+*,*::before,*::after{
+     -webkit-box-sizing:border-box;
+     box-sizing:border-box
+}
 
 html{
     font-family:sans-serif;
