@@ -4,6 +4,15 @@
 
 @import url(fonts.css);
 
+html {
+    font-family:"Nunito Sans",sans-serif;
+    line-height:1.15;
+    -webkit-text-size-adjust:100%;
+    -ms-text-size-adjust:100%;
+    -ms-overflow-style:scrollbar;
+    -webkit-tap-highlight-color:transparent
+}
+
 body {
     margin: 0;
     padding: 0;
