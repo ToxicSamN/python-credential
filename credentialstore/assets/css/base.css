@@ -502,7 +502,43 @@ mark,.mark{
     padding:0.2em;
     background-color:#fcf8e3
 }
-
+/* MODULES */
+.module {
+    border: none;
+    margin-bottom: 30px;
+    background: #fff;
+}
+.module p, .module ul, .module h3, .module h4, .module dl, .module pre {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.module blockquote {
+    margin-left: 12px;
+}
+.module ul, .module ol {
+    margin-left: 1.5em;
+}
+.module h3 {
+    margin-top: .6em;
+}
+.module h2, .module caption, .inline-group h2 {
+    margin: 0;
+    padding: 8px;
+    font-weight: 400;
+    font-size: 13px;
+    text-align: left;
+    background: #79aec8;
+    color: #fff;
+}
+.module caption,
+.inline-group h2 {
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+.module table {
+    border-collapse: collapse;
+}
 .list-unstyled{
     padding-left:0;
     list-style:none}
@@ -1981,6 +2017,18 @@ select.form-control-lg:not([size]):not([multiple]),.input-group-lg>select.form-c
     flex-wrap:wrap;
     margin-right:-5px;
     margin-left:-5px
+}
+.form-row.errors {
+    margin: 0;
+    border: none;
+    border-bottom: 1px solid #eee;
+    background: none;
+}
+.form-row.errors ul.errorlist li {
+    padding-left: 0;
+}
+.errors input, .errors select, .errors textarea {
+    border: 1px solid #ba2121;
 }
 .form-row>.col,.form-row>[class*="col-"]{
     padding-right:5px;
@@ -4183,6 +4231,22 @@ input[type="submit"].btn-block,input[type="reset"].btn-block,input[type="button"
 .accordion .card:last-of-type{
     border-top-left-radius:0;
     border-top-right-radius:0
+}
+/* BREADCRUMBS */
+
+div.breadcrumbs {
+    background: #79aec8;
+    padding: 10px 40px;
+    border: none;
+    font-size: 14px;
+    color: #c4dce8;
+    text-align: left;
+}
+div.breadcrumbs a {
+    color: #fff;
+}
+div.breadcrumbs a:focus, div.breadcrumbs a:hover {
+    color: #c4dce8;
 }
 .breadcrumb{
     display:-webkit-box;
