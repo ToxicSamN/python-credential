@@ -527,7 +527,7 @@ mark,.mark{
     font-weight: 400;
     font-size: 13px;
     text-align: left;
-    background: #79aec8; /* Original #79aec8 */
+    background: #c815ab; /* Original #79aec8 */
     color: #fff;
 }
 .module caption,
@@ -4254,7 +4254,7 @@ input[type="submit"].btn-block,input[type="reset"].btn-block,input[type="button"
 /* BREADCRUMBS */
 
 div.breadcrumbs {
-    background: #79aec8; /* original #79AEC8 */
+    background: #25c808; /* original #79AEC8 */
     padding: 10px 40px;
     border: none;
     font-size: 14px;
