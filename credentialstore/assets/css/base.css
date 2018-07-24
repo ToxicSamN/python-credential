@@ -4920,6 +4920,55 @@ input[type=submit][disabled].default,
 input[type=button][disabled].default {
     opacity: 0.4;
 }
+.submit-row {
+    padding: 12px 14px;
+    margin: 0 0 20px;
+    background: #f8f8f8;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    text-align: right;
+    overflow: hidden;
+}
+
+body.popup .submit-row {
+    overflow: auto;
+}
+
+.submit-row input {
+    height: 35px;
+    line-height: 15px;
+    margin: 0 0 0 5px;
+}
+
+.submit-row input.default {
+    margin: 0 0 0 8px;
+    text-transform: uppercase;
+}
+
+.submit-row p {
+    margin: 0.3em;
+}
+
+.submit-row p.deletelink-box {
+    float: left;
+    margin: 0;
+}
+
+.submit-row a.deletelink {
+    display: block;
+    background: #0eb9ba; /* Original #ba2121 */
+    border-radius: 4px;
+    padding: 10px 15px;
+    /*height: 15px;*/
+    line-height: 15px;
+    color: #fff;
+}
+
+.submit-row a.deletelink:focus,
+.submit-row a.deletelink:hover,
+.submit-row a.deletelink:active {
+    background: #a216a4; /* Original #CC3434 */
+}
 a.deletelink:link, a.deletelink:visited {
     color: #CC3434; /* Original #CC3434 */
     height: auto;
