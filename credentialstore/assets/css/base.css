@@ -4922,6 +4922,7 @@ input[type=button][disabled].default {
 }
 a.deletelink:link, a.deletelink:visited {
     color: #CC3434; /* Original #CC3434 */
+    height: auto;
 }
 
 a.deletelink:focus, a.deletelink:hover {
