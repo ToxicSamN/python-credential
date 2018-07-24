@@ -2047,7 +2047,7 @@ select.form-control-lg:not([size]):not([multiple]),.input-group-lg>select.form-c
     padding-left: 0;
 }
 .errors input, .errors select, .errors textarea {
-    border: 1px solid #ba2121;
+    border: 1px solid #16ba80; /* Original #ba2121 */
 }
 .form-row>.col,.form-row>[class*="col-"]{
     padding-right:5px;
