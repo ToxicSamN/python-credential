@@ -1677,6 +1677,25 @@ pre code{
         margin-left:91.6666666667%
     }
 }
+#content {
+    padding: 20px 40px;
+}
+
+.dashboard #content {
+    width: 600px;
+}
+
+#content-main {
+    float: left;
+    width: 100%;
+}
+
+#content-related {
+    float: right;
+    width: 260px;
+    position: relative;
+    margin-right: -300px;
+}
 .table{
     width:100%;
     max-width:100%;
