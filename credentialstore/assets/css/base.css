@@ -2046,8 +2046,21 @@ select.form-control-lg:not([size]):not([multiple]),.input-group-lg>select.form-c
 .form-row.errors ul.errorlist li {
     padding-left: 0;
 }
+
+.errornote {
+    font-size: 14px;
+    font-weight: 700;
+    display: block;
+    padding: 10px 12px;
+    margin: 0 0 10px 0;
+    color: #ba2121;
+    border: 1px solid #ba2121;
+    border-radius: 4px;
+    background-color: #fff;
+    background-position: 5px 12px;
+}
 .errors input, .errors select, .errors textarea {
-    border: 1px solid #16ba80; /* Original #ba2121 */
+    border: 1px solid #ba2121; /* Original #ba2121 */
 }
 .form-row>.col,.form-row>[class*="col-"]{
     padding-right:5px;
