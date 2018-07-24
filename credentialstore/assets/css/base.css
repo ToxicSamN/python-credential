@@ -527,7 +527,7 @@ mark,.mark{
     font-weight: 400;
     font-size: 13px;
     text-align: left;
-    background: #c811a5;
+    background: #79aec8; /* Original #79aec8 */
     color: #fff;
 }
 .module caption,
@@ -592,7 +592,7 @@ mark,.mark{
 }
 code{
     font-size:87.5%;
-    color:#79aec8;
+    color:#e83e8c;
     word-break:break-word
 }
 a>code{
