@@ -4908,12 +4908,43 @@ input[type=button][disabled].default {
     opacity: 0.4;
 }
 a.deletelink:link, a.deletelink:visited {
-    color: #0340cc; /* Original #CC3434 */
+    color: #CC3434; /* Original #CC3434 */
 }
 
 a.deletelink:focus, a.deletelink:hover {
-    color: #170299; /* Original #993333 */
+    color: #993333; /* Original #993333 */
     text-decoration: none;
+}
+
+.delete-confirmation form input[type="submit"] {
+    background: #0340cc; /* Original #ba2121 */
+    border-radius: 4px;
+    padding: 10px 15px;
+    color: #fff;
+}
+
+.delete-confirmation form input[type="submit"]:active,
+.delete-confirmation form input[type="submit"]:focus,
+.delete-confirmation form input[type="submit"]:hover {
+    background: #170299; /* Original #a41515 */
+}
+
+.delete-confirmation form .cancel-link {
+    display: inline-block;
+    vertical-align: middle;
+    height: 15px;
+    line-height: 15px;
+    background: #ddd;
+    border-radius: 4px;
+    padding: 10px 15px;
+    color: #333;
+    margin: 0 0 0 10px;
+}
+
+.delete-confirmation form .cancel-link:active,
+.delete-confirmation form .cancel-link:focus,
+.delete-confirmation form .cancel-link:hover {
+    background: #ccc; /* Original #ccc */
 }
 .modal-open{
     overflow:hidden
