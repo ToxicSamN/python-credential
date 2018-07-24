@@ -4907,6 +4907,14 @@ input[type=submit][disabled].default,
 input[type=button][disabled].default {
     opacity: 0.4;
 }
+a.deletelink:link, a.deletelink:visited {
+    color: #0340cc; /* Original #CC3434 */
+}
+
+a.deletelink:focus, a.deletelink:hover {
+    color: #170299; /* Original #993333 */
+    text-decoration: none;
+}
 .modal-open{
     overflow:hidden
 }
