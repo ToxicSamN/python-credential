@@ -588,9 +588,9 @@ form .related-widget-wrapper ul {
     border:0
 }
 .form-control:focus{
-    color:#55595c;
-    background-color:#f7f7f9;
-    border-color:#5a5a5a;
+    color:#55595c; /* original #55595c */
+    background-color:#f7f7f9; /* original #f7f7f9 */
+    border-color: #30f817; /* original #5a5a5a */
     outline:0;
     -webkit-box-shadow:0 0 0 0.2rem rgba(26,26,26,0.25);
     box-shadow:0 0 0 0.2rem rgba(26,26,26,0.25)
