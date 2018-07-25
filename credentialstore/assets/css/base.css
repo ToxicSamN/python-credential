@@ -4906,13 +4906,13 @@ a.button {
     float: right;
     border: none;
     font-weight: 400;
-    background: #f56c04; /* Original #417690 */
+    background: #000000; /* Original #417690 */
 }
 
 .button.default:active, input[type=submit].default:active,
 .button.default:focus, input[type=submit].default:focus,
 .button.default:hover, input[type=submit].default:hover {
-    background: #ff030d; /* Original #205067 */
+    background: #272727; /* Original #205067 */
 }
 
 .button[disabled].default,
