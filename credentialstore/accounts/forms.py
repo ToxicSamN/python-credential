@@ -9,3 +9,4 @@ class LoginForm(AuthenticationForm):
                                widget=forms.TextInput(attrs={'class': 'form-control', 'name': 'username'}))
     password = forms.CharField(label="Password", max_length=30,
                                widget=forms.PasswordInput(attrs={'class': 'form-control', 'name': 'password'}))
+    pulldown = forms.ChoiceField(choices=['choice 1', 'choice 2', 'choice 3'])
