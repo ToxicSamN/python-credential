@@ -305,10 +305,10 @@
 #changelist .actions select {
     vertical-align: top;
     height: 24px;
-    background: none;
-    color: #000;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    background-color: #f7f7f9;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(26,26,26,0.25);
+    border-color: #999;
     font-size: 14px;
     padding: 0 0 0 4px;
     margin: 0;
