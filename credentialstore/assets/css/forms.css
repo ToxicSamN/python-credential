@@ -379,10 +379,10 @@ body.popup .submit-row {
     width: 2.2em;
 }
 
-/*.vTextField {*/
-    /*width: 20em;*/
-    /*background: #f7f7f9;*/
-/*}*/
+.vTextField {
+    width: 20em;
+    background: #f7f7f9;
+}
 
 .vIntegerField {
     width: 5em;
