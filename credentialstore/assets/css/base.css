@@ -4270,11 +4270,12 @@ input[type="submit"].btn-block,input[type="reset"].btn-block,input[type="button"
 #header {
     width: auto;
     height: 40px;
-    padding: 10px 40px;
-    background: #417690;
+    padding: 1.5rem 1rem;
+    background: #000000;
     line-height: 40px;
     color: #f7f7f9;
     overflow: hidden;
+
 }
 
 #header a:link, #header a:visited {
