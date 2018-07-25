@@ -587,7 +587,7 @@ form .related-widget-wrapper ul {
     background-color:transparent;
     border:0
 }
-.form-control:focus, .vTextField{
+.form-control:focus{
     color:#55595c;
     background-color:#f7f7f9;
     border-color:#5a5a5a;
