@@ -302,25 +302,25 @@
     border-bottom: none;
 }
 
-/*#changelist .actions select {*/
-    /*vertical-align: top;*/
-    /*!*height: 24px;*!*/
-    /*background-color: #f7f7f9;*/
-    /*outline: 0;*/
-    /*box-shadow: none;*/
-    /*border-color: #f7f7f9;*/
-    /*font-size: 14px;*/
-    /*padding: 0 0 0 4px;*/
-    /*margin: 0;*/
-    /*margin-left: 10px;*/
-/*}*/
+#changelist .actions select {
+    vertical-align: top;
+    /*height: 24px;*/
+    background-color: #f7f7f9;
+    outline: 0;
+    box-shadow: none;
+    border-color: #f7f7f9;
+    font-size: 14px;
+    padding: 0 0 0 4px;
+    margin: 0;
+    margin-left: 10px;
+}
 
-/*#changelist .actions select:focus {*/
-    /*background-color: #f7f7f9;*/
-    /*outline: 0;*/
-    /*box-shadow: 0 0 0 0.2rem rgba(26,26,26,0.25);*/
-    /*border-color: #999;*/
-/*}*/
+#changelist .actions select:focus {
+    background-color: #f7f7f9;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(26,26,26,0.25);
+    border-color: #999;
+}
 
 #changelist .actions label {
     display: inline-block;
