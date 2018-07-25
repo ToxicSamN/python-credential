@@ -4268,8 +4268,15 @@ input[type="submit"].btn-block,input[type="reset"].btn-block,input[type="button"
 /* HEADER */
 
 #header {
-    width: auto;
-    height: 40px;
+    position: relative;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
     padding: 1.5rem 1rem;
     background: #000000;
     line-height: 40px;
