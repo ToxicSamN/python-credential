@@ -305,6 +305,7 @@ body.popup .submit-row {
 
 .vCheckboxField {
     border: none;
+    background: #f7f7f9;
 }
 
 .vDateField, .vTimeField {
@@ -314,18 +315,22 @@ body.popup .submit-row {
 
 .vDateField {
     min-width: 6.85em;
+    background: #f7f7f9;
 }
 
 .vTimeField {
     min-width: 4.7em;
+    background: #f7f7f9;
 }
 
 .vURLField {
     width: 30em;
+    background: #f7f7f9;
 }
 
 .vLargeTextField, .vXMLLargeTextField {
     width: 48em;
+    background: #f7f7f9;
 }
 
 .flatpages-flatpage #id_content {
@@ -338,18 +343,22 @@ body.popup .submit-row {
 
 .vTextField {
     width: 20em;
+    background: #f7f7f9;
 }
 
 .vIntegerField {
     width: 5em;
+    background: #f7f7f9;
 }
 
 .vBigIntegerField {
     width: 10em;
+    background: #f7f7f9;
 }
 
 .vForeignKeyRawIdAdminField {
     width: 5em;
+    background: #f7f7f9;
 }
 
 /* INLINES */
@@ -376,7 +385,7 @@ body.popup .submit-row {
     color: #666;
     padding: 5px;
     font-size: 13px;
-    background: #30f817;
+    background: #f8f8f8;
     border-top: 1px solid #eee;
     border-bottom: 1px solid #eee;
 }
@@ -392,7 +401,7 @@ body.popup .submit-row {
 
 .inline-related fieldset {
     margin: 0;
-    background: #fe20ff;
+    background: #fff;
     border: none;
     width: 100%;
 }
@@ -460,7 +469,7 @@ body.popup .submit-row {
 .inline-group div.add-row,
 .inline-group .tabular tr.add-row td {
     color: #666;
-    background: #14f8e9;
+    background: #f8f8f8;
     padding: 8px 10px;
     border-bottom: 1px solid #eee;
 }
