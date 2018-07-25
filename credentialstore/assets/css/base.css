@@ -148,6 +148,9 @@ sub{
 sup{
     top:-.5em
 }
+
+/* LINKS */
+
 a{
     color:#1a1a1a;
     text-decoration:none;
@@ -168,6 +171,31 @@ a:not([href]):not([tabindex]):hover,a:not([href]):not([tabindex]):focus{
 }
 a:not([href]):not([tabindex]):focus{
     outline:0
+}
+a:link, a:visited {
+    color: #9b1410;
+    text-decoration: none;
+}
+
+a:focus, a:hover {
+    color: #003366;
+}
+
+a:focus {
+    text-decoration: underline;
+}
+
+a img {
+    border: none;
+}
+
+a.section:link, a.section:visited {
+    color: #7200a9;
+    text-decoration: none;
+}
+
+a.section:focus, a.section:hover {
+    text-decoration: underline;
 }
 pre,code,kbd,samp{
     color: #666;
