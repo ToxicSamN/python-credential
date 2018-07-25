@@ -4362,6 +4362,7 @@ input[type="submit"].btn-block,input[type="reset"].btn-block,input[type="button"
 
 #user-tools a {
     border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+    color: #9b1410;
 }
 
 #user-tools a:focus, #user-tools a:hover {
