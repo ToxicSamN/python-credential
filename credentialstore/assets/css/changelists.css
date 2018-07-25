@@ -304,15 +304,20 @@
 
 #changelist .actions select {
     vertical-align: top;
-    height: 26px;
+    /*height: 30px;*/
     background-color: #f7f7f9;
     outline: 0;
     box-shadow: none;
-    border-color: #f7f7f9;
+    /*border-color: #f7f7f9;*/
     font-size: 14px;
-    padding: 0 0 0 4px;
-    margin: 0;
-    margin-left: 10px;
+    /*padding: 0 0 0 4px;*/
+    /*margin: 0;*/
+    /*margin-left: 10px;*/
+    border: 0px solid #ced4da;
+    border-radius: 0;
+    background-clip: padding-box;
+    padding: 0.75rem 2rem;
+    line-height: 1.5rem;
 }
 
 #changelist .actions select:focus {
