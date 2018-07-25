@@ -304,7 +304,7 @@
 
 #changelist .actions select {
     vertical-align: top;
-    /*height: 24px;*/
+    height: 26px;
     background-color: #f7f7f9;
     outline: 0;
     box-shadow: none;
