@@ -341,10 +341,10 @@ body.popup .submit-row {
     width: 2.2em;
 }
 
-.vTextField {
-    width: 20em;
-    background: #f7f7f9;
-}
+/*.vTextField {*/
+    /*width: 20em;*/
+    /*background: #f7f7f9;*/
+/*}*/
 
 .vIntegerField {
     width: 5em;
@@ -549,7 +549,7 @@ form .related-widget-wrapper ul {
     background-color:transparent;
     border:0
 }
-.form-control:focus{
+.form-control:focus, .vTextField{
     color:#55595c;
     background-color:#f7f7f9;
     border-color:#5a5a5a;
