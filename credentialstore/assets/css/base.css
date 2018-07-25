@@ -527,7 +527,7 @@ mark,.mark{
     font-weight: 400;
     font-size: 13px;
     text-align: left;
-    background: #c815ab; /* Original #79aec8 */
+    background: #c6c8ca; /* Original #79aec8 */
     color: #fff;
 }
 .module caption,
@@ -4267,7 +4267,7 @@ input[type="submit"].btn-block,input[type="reset"].btn-block,input[type="button"
 /* BREADCRUMBS */
 
 div.breadcrumbs {
-    background: #25c808; /* original #79AEC8 */
+    background: #f5f5f5; /* original #79AEC8 */
     padding: 10px 40px;
     border: none;
     font-size: 14px;
@@ -4967,7 +4967,7 @@ body.popup .submit-row {
 .submit-row a.deletelink:focus,
 .submit-row a.deletelink:hover,
 .submit-row a.deletelink:active {
-    background: #a216a4; /* Original #CC3434 */
+    background: #CC3434; /* Original #CC3434 */
 }
 a.deletelink:link, a.deletelink:visited {
     color: #CC3434; /* Original #CC3434 */
@@ -4980,7 +4980,7 @@ a.deletelink:focus, a.deletelink:hover {
 }
 
 .delete-confirmation form input[type="submit"] {
-    background: #0340cc; /* Original #ba2121 */
+    background: #ba2121; /* Original #ba2121 */
     border-radius: 4px;
     padding: 10px 15px;
     color: #fff;
@@ -4989,13 +4989,13 @@ a.deletelink:focus, a.deletelink:hover {
 .delete-confirmation form input[type="submit"]:active,
 .delete-confirmation form input[type="submit"]:focus,
 .delete-confirmation form input[type="submit"]:hover {
-    background: #170299; /* Original #a41515 */
+    background: #a41515; /* Original #a41515 */
 }
 
 .delete-confirmation form .cancel-link {
     display: inline-block;
     vertical-align: middle;
-    /*height: 15px;*/
+    height: 15px;
     line-height: 15px;
     background: #ddd;
     border-radius: 4px;
