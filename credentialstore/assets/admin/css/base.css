@@ -39,12 +39,12 @@ body{
 /* LINKS */
 
 a:link, a:visited {
-    color: #447e9b;
+    color: #9b1410;
     text-decoration: none;
 }
 
 a:focus, a:hover {
-    color: #036;
+    color: #003366;
 }
 
 a:focus {
@@ -56,7 +56,7 @@ a img {
 }
 
 a.section:link, a.section:visited {
-    color: #fff;
+    color: #7200a9;
     text-decoration: none;
 }
 
