@@ -10,7 +10,7 @@ from rest_framework.response import Response
 from .serializers import ClientListSerializer, SecretListSerializer, ClientCreateSerializer
 from .serializers import AdminClientListSerializer, AdminSecretClientListSerializer, AdminSecretSerializer
 from .models import ClientModel, SecretModel
-from.decorators import admin_login_required, create_login_required, update_login_required
+from.decorators import admin_login_required, create_login_required, update_login_required, retrieve_login_required
 from .render import CredStoreBrowsableAPIRenderer
 
 from .pystuffing.secret import Secret
@@ -20,6 +20,7 @@ class ModelFieldError(exceptions.FieldError):
     pass
 
 
+@method_decorator(retrieve_login_required, name='dispatch')
 class GetCredentialView(generics.ListAPIView):
 
     serializer_class = ClientListSerializer
@@ -94,6 +95,34 @@ class GetCredentialView(generics.ListAPIView):
         self.return_response = Response(serializer_q.data, status=status.HTTP_200_OK)
 
 
+@method_decorator(update_login_required, name='dispatch')
+class UpdateCredentialView(generics.UpdateAPIView):
+    """ Not yet built out"""
+    pass
+
+
+@method_decorator(admin_login_required, name='dispatch')
+class DeleteCredentialView(generics.DestroyAPIView):
+    """ Not yet built out"""
+    pass
+
+
+@method_decorator(admin_login_required, name='dispatch')
+class UpdateSecretView(generics.UpdateAPIView):
+    """ Not yet built out"""
+    pass
+
+
+@method_decorator(admin_login_required, name='dispatch')
+class DeleteSecretView(generics.DestroyAPIView):
+    """ Not yet built out"""
+    pass
+
+
+@method_decorator(admin_login_required, name='dispatch')
+class UpdateUserAccessView(generics.UpdateAPIView):
+    """ Not yet built out"""
+    pass
 
 
 @method_decorator(admin_login_required, name='dispatch')
