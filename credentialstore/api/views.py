@@ -40,7 +40,7 @@ class GetCredentialView(generics.ListAPIView):
         if request.query_params and not [True for k in invalid_lookup_fields if
                                          request.query_params.dict().keys().__contains__(k)]:
             # The model.objects.filter will raise an exception if the user provides a field unknown to the model.
-            #  Let's catch this and formulate ur own message on what a 'valid' field is
+            #  Let's catch this and formulate our own message on what a 'valid' field is
             try:
                 # request.QueryDict is immutable, so copy the original QueryDict to mutable object
                 self.query_params = request.query_params.copy()
@@ -88,6 +88,8 @@ class GetCredentialView(generics.ListAPIView):
                 # check if the username matches what the query suggests
                 if secret['username'] == self.secret_user:
                     s = self.decoder_ring.password_packaging(
+                        # TODO: change the dev value to production of settings.SECRET
+                        # TODO: Better yet make this a hash of the HTTPS Certificate thumbprint of the server
                         secret['password'], data['pubkey'], secret='dev')
                     secret['password'] = s
                 else:
