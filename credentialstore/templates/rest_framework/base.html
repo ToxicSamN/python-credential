@@ -16,9 +16,6 @@
           <div class="container">
             <span>
               {% block branding %}
-                <a class='navbar-brand' rel="nofollow" href='http://www.django-rest-framework.org'>
-                    Django REST framework
-                </a>
               {% endblock %}
             </span>
             <ul class="nav navbar-nav pull-right">
@@ -54,30 +51,30 @@
           {% block content %}
 
           <div class="region"  aria-label="{% trans "request form" %}">
-          {% if 'GET' in allowed_methods %}
-            <form id="get-form" class="pull-right">
-              <fieldset>
-                {% if api_settings.URL_FORMAT_OVERRIDE %}
-                  <div class="btn-group format-selection">
-                    <a class="btn btn-primary js-tooltip" href="{{ request.get_full_path }}" rel="nofollow" title="Make a GET request on the {{ name }} resource">GET</a>
-
-                    <button class="btn btn-primary dropdown-toggle js-tooltip" data-toggle="dropdown" title="Specify a format for the GET request">
-                      <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu">
-                      {% for format in available_formats %}
-                        <li>
-                          <a class="js-tooltip format-option" href="{% add_query_param request api_settings.URL_FORMAT_OVERRIDE format %}" rel="nofollow" title="Make a GET request on the {{ name }} resource with the format set to `{{ format }}`">{{ format }}</a>
-                        </li>
-                      {% endfor %}
-                    </ul>
-                  </div>
-                {% else %}
-                  <a class="btn btn-primary js-tooltip" href="{{ request.get_full_path }}" rel="nofollow" title="Make a GET request on the {{ name }} resource">GET</a>
-                {% endif %}
-              </fieldset>
-            </form>
-          {% endif %}
+{#          {% if 'GET' in allowed_methods %}#}
+{#            <form id="get-form" class="pull-right">#}
+{#              <fieldset>#}
+{#                {% if api_settings.URL_FORMAT_OVERRIDE %}#}
+{#                  <div class="btn-group format-selection">#}
+{#                    <a class="btn btn-primary js-tooltip" href="{{ request.get_full_path }}" rel="nofollow" title="Make a GET request on the {{ name }} resource">GET</a>#}
+{##}
+{#                    <button class="btn btn-primary dropdown-toggle js-tooltip" data-toggle="dropdown" title="Specify a format for the GET request">#}
+{#                      <span class="caret"></span>#}
+{#                    </button>#}
+{#                    <ul class="dropdown-menu">#}
+{#                      {% for format in available_formats %}#}
+{#                        <li>#}
+{#                          <a class="js-tooltip format-option" href="{% add_query_param request api_settings.URL_FORMAT_OVERRIDE format %}" rel="nofollow" title="Make a GET request on the {{ name }} resource with the format set to `{{ format }}`">{{ format }}</a>#}
+{#                        </li>#}
+{#                      {% endfor %}#}
+{#                    </ul>#}
+{#                  </div>#}
+{#                {% else %}#}
+{#                  <a class="btn btn-primary js-tooltip" href="{{ request.get_full_path }}" rel="nofollow" title="Make a GET request on the {{ name }} resource">GET</a>#}
+{#                {% endif %}#}
+{#              </fieldset>#}
+{#            </form>#}
+{#          {% endif %}#}
 
           {% if options_form %}
             <form class="button-form" action="{{ request.get_full_path }}" data-method="OPTIONS">
@@ -85,26 +82,26 @@
             </form>
           {% endif %}
 
-          {% if delete_form %}
-            <button class="btn btn-danger button-form js-tooltip" title="Make a DELETE request on the {{ name }} resource" data-toggle="modal" data-target="#deleteModal">DELETE</button>
-
-            <!-- Delete Modal -->
-            <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <div class="modal-body">
-                    <h4 class="text-center">Are you sure you want to delete this {{ name }}?</h4>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    <form class="button-form" action="{{ request.get_full_path }}" data-method="DELETE">
-                      <button class="btn btn-danger">Delete</button>
-                    </form>
-                  </div>
-                </div>
-              </div>
-            </div>
-          {% endif %}
+{#          {% if delete_form %}#}
+{#            <button class="btn btn-danger button-form js-tooltip" title="Make a DELETE request on the {{ name }} resource" data-toggle="modal" data-target="#deleteModal">DELETE</button>#}
+{##}
+{#            <!-- Delete Modal -->#}
+{#            <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">#}
+{#              <div class="modal-dialog">#}
+{#                <div class="modal-content">#}
+{#                  <div class="modal-body">#}
+{#                    <h4 class="text-center">Are you sure you want to delete this {{ name }}?</h4>#}
+{#                  </div>#}
+{#                  <div class="modal-footer">#}
+{#                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>#}
+{#                    <form class="button-form" action="{{ request.get_full_path }}" data-method="DELETE">#}
+{#                      <button class="btn btn-danger">Delete</button>#}
+{#                    </form>#}
+{#                  </div>#}
+{#                </div>#}
+{#              </div>#}
+{#            </div>#}
+{#          {% endif %}#}
 
           {% if filter_form %}
             <button style="float: right; margin-right: 10px" data-toggle="modal" data-target="#filtersModal" class="btn btn-default">
