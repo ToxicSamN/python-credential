@@ -88,8 +88,8 @@ class GetCredentialView(generics.ListAPIView):
                 # check if the username matches what the query suggests
                 if secret['username'] == self.secret_user:
                     s = self.decoder_ring.password_packaging(
-                        # TODO: change the dev value to production of settings.SECRET
-                        # TODO: Better yet make this a hash of the HTTPS Certificate thumbprint of the server
+                        # TODO: change the dev value to production value of settings.SECRET
+                        # TODO: Better yet, create a new key pair and use the priv key as the secret
                         secret['password'], data['pubkey'], secret='dev')
                     secret['password'] = s
                 else:
