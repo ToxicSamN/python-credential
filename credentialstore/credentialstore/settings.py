@@ -204,6 +204,7 @@ AUTH_LDAP_USER_FLAGS_BY_GROUP = {
 
 AUTH_LDAP_GROUP_TYPE = NestedActiveDirectoryGroupType()
 AUTH_LDAP_FIND_GROUP_PERMS = True
+AUTH_LDAP_MIRROR_GROUPS = settings_dict['ldap_mirror_groups']
 AUTH_LDAP_REQUIRE_GROUP = settings_dict['ldap_active']
 AUTH_LDAP_CACHE_GROUPS = True
 AUTH_LDAP_GROUP_CACHE_TIMEOUT = 3600
