@@ -165,21 +165,24 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 # django_auth_ldap
-AUTH_LDAP_SERVER_URI = settings_dict['ldap_uri']  # dev parameter only
+AUTH_LDAP_SERVER_URI = settings_dict['ldap_uri']
 AD_CERT_FILE = os.path.join(BASE_DIR, '/etc/pki/tls/certs/cert.crt')
 ldap.set_option(ldap.OPT_PROTOCOL_VERSION, 3)
 ldap.set_option(ldap.OPT_X_TLS_REQUIRE_CERT, ldap.OPT_X_TLS_ALLOW)
 ldap.set_option(ldap.OPT_X_TLS_CACERTFILE, AD_CERT_FILE)
 # LDAP_IGNORE_CERT_ERRORS = True
 
-AUTH_LDAP_BIND_DN = settings_dict['bind_account']  # dev parameter only
-AUTH_LDAP_BIND_PASSWORD = settings_dict['bind_passwd']  # dev parameter only
+AUTH_LDAP_BIND_DN = settings_dict['bind_account']
+AUTH_LDAP_BIND_PASSWORD = settings_dict['bind_passwd']
 
 AUTH_LDAP_USER_SEARCH = LDAPSearchUnion(
-    LDAPSearch(settings_dict['ldap_search1'],  # dev parameter only
+    LDAPSearch(settings_dict['ldap_search1'],
                ldap.SCOPE_SUBTREE,
                "(sAMAccountName=%(user)s)"),
-    LDAPSearch(settings_dict['ldap_search2'],  # dev parameter only
+    LDAPSearch(settings_dict['ldap_search2'],
+               ldap.SCOPE_SUBTREE,
+               "(sAMAccountName=%(user)s)"),
+    LDAPSearch(settings_dict['ldap_search3'],
                ldap.SCOPE_SUBTREE,
                "(sAMAccountName=%(user)s)"),
 )
@@ -190,18 +193,18 @@ AUTH_LDAP_USER_ATTR_MAP = {
     "email": "mail"
 }
 
-AUTH_LDAP_GROUP_SEARCH = LDAPSearch(settings_dict['ldap_grp_search'],  # dev parameter only
+AUTH_LDAP_GROUP_SEARCH = LDAPSearch(settings_dict['ldap_grp_search'],
                                     ldap.SCOPE_SUBTREE,
                                     "(objectClass=group)")
 AUTH_LDAP_USER_FLAGS_BY_GROUP = {
-    'is_active': settings_dict['ldap_active'],  # dev parameter only
-    'is_staff': settings_dict['ldap_staff'],  # dev parameter only
-    'is_superuser': settings_dict['ldap_super'],  # dev parameter only
+    'is_active': settings_dict['ldap_active'],
+    'is_staff': settings_dict['ldap_staff'],
+    'is_superuser': settings_dict['ldap_super'],
 }
 
 AUTH_LDAP_GROUP_TYPE = NestedActiveDirectoryGroupType()
 AUTH_LDAP_FIND_GROUP_PERMS = True
-AUTH_LDAP_REQUIRE_GROUP = settings_dict['ldap_active']  # dev parameter only
+AUTH_LDAP_REQUIRE_GROUP = settings_dict['ldap_active']
 AUTH_LDAP_CACHE_GROUPS = True
 AUTH_LDAP_GROUP_CACHE_TIMEOUT = 3600
 
