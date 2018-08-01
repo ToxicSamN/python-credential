@@ -9,7 +9,7 @@
 {% block usertools %}
         <div id="user-tools">
             {% block welcome-msg %}
-                {% trans 'Welcome,' %}
+                {% trans 'Welcome ' %}
                 <strong>{% firstof user.get_short_name user.get_username %}</strong>
             {% endblock %}
             {% block userlinks %}
@@ -19,7 +19,11 @@
                 {% if user.has_usable_password %}
                     <a href="{% url 'admin:password_change' %}">{% trans 'Change password' %}</a> /
                 {% endif %}
-                <a href="/logout">Logout</a>
+                {% if user.get_username %}
+                    <a href="/logout">Logout {{ user.get_username }}</a>
+                {% else %}
+                    <a href="/login">Login</a>
+                {% endif %}
             {% endblock %}
         </div>
 {% endblock %}
