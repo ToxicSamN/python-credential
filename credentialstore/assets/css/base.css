@@ -53,7 +53,7 @@ body{
     font-size: 14px;
     font-weight:400;
     line-height:1.5;
-    color: #a1282a;
+    color: #666;
     text-align:left;
     background-color:#fff
 }
@@ -4335,6 +4335,7 @@ input[type="submit"].btn-block,input[type="reset"].btn-block,input[type="button"
 
 #branding h1, #branding h1 a:link, #branding h1 a:visited {
     color: #ffffff;
+    text-decoration: none;
 }
 
 #branding h2 {
