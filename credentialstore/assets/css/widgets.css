@@ -43,21 +43,10 @@
     color: #666;
 }
 
-.selector {
+.selector .selector-filter {
     background: white;
     border: 1px solid #ccc;
     border-width: 0 1px;
-    padding: 8px;
-    color: #999;
-    font-size: 10px;
-    margin: 0;
-    text-align: left;
-}
-
-.selector-filter {
-    background: white;
-    border: none;
-    border-width: 0;
     padding: 8px;
     color: #999;
     font-size: 10px;
