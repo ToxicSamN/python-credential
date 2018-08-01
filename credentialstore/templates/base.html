@@ -16,12 +16,6 @@
                 {% if site_url %}
                     <a href="{{ site_url }}">{% trans 'Home' %}</a> /
                 {% endif %}
-                {% if user.is_active %}
-                    {% url 'django-admindocs-docroot' as docsroot %}
-                    {% if docsroot %}
-                        <a href="{{ docsroot }}">{% trans 'Documentation' %}</a> /
-                    {% endif %}
-                {% endif %}
                 {% if user.has_usable_password %}
                 <a href="{% url 'admin:password_change' %}">{% trans 'Change password' %}</a> /
                 {% endif %}
