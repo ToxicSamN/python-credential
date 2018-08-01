@@ -54,6 +54,12 @@
     text-align: left;
 }
 
+.selector-filter {
+    background: #f7f7f9;
+    border: none;
+    border-width: 0 1px;
+}
+
 .selector .selector-filter label,
 .inline-group .aligned .selector .selector-filter label {
     float: left;
