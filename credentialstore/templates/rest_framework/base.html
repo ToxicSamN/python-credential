@@ -29,7 +29,7 @@
                             <a href="{{ site_url }}">{% trans 'Home' %}</a> /
                         {% endif %}
                         {% if user.is_active %}
-                            {% url 'django-admindocs-docroot' as docsroot %}
+                            {% url 'django-admindocs-docroot' as docsroot %}*
                             {% if docsroot %}
                                 <a href="{{ docsroot }}">{% trans 'Documentation' %}</a> /
                             {% endif %}
