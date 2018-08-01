@@ -7,7 +7,6 @@
 {% endblock %}
 {% load i18n %}
 {% block usertools %}
-    {% if has_permission %}
         <div id="user-tools">
             {% block welcome-msg %}
                 {% trans 'Welcome,' %}
@@ -29,7 +28,6 @@
                 <a href="{% url 'admin:logout' %}">{% trans 'Log out' %}</a>
             {% endblock %}
         </div>
-    {% endif %}
 {% endblock %}
 
 {% block nav-global %}
