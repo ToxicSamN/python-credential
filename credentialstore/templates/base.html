@@ -1,9 +1,11 @@
 {% extends "admin/base.html" %}
+{% load i18n static %}
 {% block title %}{{ title }} | {{ site_title|default:_('CIG Credential Store') }}{% endblock %}
 
 {% block branding %}
 <h1 id="site-name"><a href="{% url 'admin:index' %}">CIG Credential Store</a></h1>
 {% endblock %}
+
 {% block usertools %}
     {% if has_permission %}
         <div id="user-tools">
