@@ -13,6 +13,7 @@
                 <strong>{% firstof user.get_short_name user.get_username %}</strong>.
             {% endblock %}
             {% block userlinks %}
+                <li class="nav-item">
                 {% if site_url %}
                     <a href="{{ site_url }}">{% trans 'Home' %}</a> /
                 {% endif %}
@@ -25,7 +26,7 @@
                 {% if user.has_usable_password %}
                 <a href="{% url 'admin:password_change' %}">{% trans 'Change password' %}</a> /
                 {% endif %}
-                <li class="nav-item">
+
                     <a href="/logout" class="nav-link" aria-expanded="false">Logout</a>
                 </li>
             {% endblock %}
