@@ -44,7 +44,7 @@
 }
 
 .selector .selector-filter {
-    background: #f7f7f9;
+    background: #f8f8f8;
     border: none;
     border-width: 0 1px;
     padding: 8px;
@@ -66,8 +66,9 @@
 }
 
 .selector .selector-available input {
-    background: deeppink;
+    background: #f7f7f9;
     width: 320px;
+    height: 30px;
     margin-left: 8px;
 }
 
