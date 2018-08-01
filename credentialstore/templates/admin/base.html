@@ -33,7 +33,7 @@
             {% if has_permission %}
             <div id="user-tools">
                 {% block welcome-msg %}
-                    {% trans 'Welcome,' %}
+                    {% trans 'Welcome ' %}
                     <strong>{% firstof user.get_short_name user.get_username %}</strong>.
                 {% endblock %}
                 {% block userlinks %}
@@ -44,9 +44,9 @@
                         <a href="{% url 'admin:password_change' %}">{% trans 'Change password' %}</a> /
                     {% endif %}
                     {% if user.get_username %}
-                    <a href="/logout">Logout {{ user.get_username }}</a>
+                        <a href="/logout">Logout {{ user.get_username }}</a>
                     {% else %}
-                    <a href="/login">Login</a>
+                        <a href="/login">Login</a>
                     {% endif %}
                 {% endblock %}
             </div>
