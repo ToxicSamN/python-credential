@@ -32,7 +32,7 @@
               {% if forloop.last %}
                 <li class="active"><a href="{{ breadcrumb_url }}">{{ breadcrumb_name }}</a></li>
               {% else %}
-                <li><a href="{{ breadcrumb_url }}">{{ breadcrumb_name }}</a>{% trans " | " %}</li>
+                <li><a href="{{ breadcrumb_url }}">{{ breadcrumb_name }}</a><strong>{% trans " | " %}</strong></li>
               {% endif %}
             {% empty %}
               {% block breadcrumbs_empty %}&nbsp;{% endblock breadcrumbs_empty %}
