@@ -25,7 +25,7 @@
                 {% if user.has_usable_password %}
                 <a href="{% url 'admin:password_change' %}">{% trans 'Change password' %}</a> /
                 {% endif %}
-                    <a href="/logout" class="nav-link" aria-expanded="false">Logout</a>
+                    <a href="/logout" aria-expanded="false">Logout</a>
             {% endblock %}
         </div>
 {% endblock %}
