@@ -1,48 +1,9 @@
+{% extends "admin/base.html" %}
+{% block title %}{{ title }} | {{ site_title|default:_('CIG Credential Store') }}{% endblock %}
 
-{% load staticfiles %}
+{% block branding %}
+<h1 id="site-name"><a href="{% url 'admin:index' %}">CIG Credential Store</a></h1>
+{% endblock %}
 
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>Infrastructure Credential Store</title>
-                <!-- Core CSS - Include with every page -->
-                <link href="{% static 'css/base.css' %}" rel="stylesheet">
-
-    <!-- Extra CSS Styling - Include with every page -->
-        {% block extrastyle %}
-        {% endblock %}
-    </head>
-    <head>
-
-    </head>
-
-    <body>
-
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <li class="navbar-brand" href="#">Sammy's Playground</li>
-                </div>
-                    <ul class="nav navbar-nav navbar-right">
-                        <li class="nav-item">
-                            <a href="/logout" class="nav-link" aria-expanded="false">Logout</a>
-                        </li>
-                    </ul>
-                </div>
-        </nav>
-
-    {% block content %}
-    {% endblock %}
-
-
-        <!-- Core Scripts - Include with every page -->
-        <script src = "{% static 'js/jquery.min.js' %}"></script>
-        <script src = "{% static 'js/bootstrap.min.js' %}"></script>
-        <script src = "{% static 'js/popper.min.js' %}"></script>
-    {% block javascript %}
-    {% endblock %}
-
-    </body>
-</html>
+{% block nav-global %}
+{% endblock %}
