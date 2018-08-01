@@ -20,13 +20,13 @@
 .selector-chosen {
     float: left;
     width: 380px;
-    height: 21.25em;
     text-align: center;
     margin-bottom: 5px;
 }
 
 .selector-chosen select {
     border-top: none;
+    height: 21.25em;
 }
 
 .selector-available h2, .selector-chosen h2 {
