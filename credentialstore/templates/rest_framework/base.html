@@ -29,7 +29,7 @@
                         {% if site_url %}
                             <a href="{{ site_url }}">{% trans 'Home' %}</a> /
                         {% endif %}
-                        {% if user.is_active and user.is_staff %}
+                        {% if user.is_active %}
                             {% url 'django-admindocs-docroot' as docsroot %}
                             {% if docsroot %}
                                 <a href="{{ docsroot }}">{% trans 'Documentation' %}</a> /
@@ -38,7 +38,9 @@
                         {% if user.has_usable_password %}
                         <a href="{% url 'admin:password_change' %}">{% trans 'Change password' %}</a> /
                         {% endif %}
-                        <a href="{% url 'admin:logout' %}">{% trans 'Log out' %}</a>
+                        <li class="nav-item">
+                            <a href="/logout" class="nav-link" aria-expanded="false">Logout</a>
+                        </li>
                     {% endblock %}
                 </div>
             {% endblock %}
