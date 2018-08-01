@@ -4,11 +4,15 @@
 {% load i18n %}
 {# Override this template in your own templates directory to customize #}
 {% block userlinks %}
-                {% if site_url %}
-                    <a href="{{ site_url }}">{% trans 'Home' %}</a> /
-                {% endif %}
-                {% if user.has_usable_password %}
-                    <a href="{% url 'admin:password_change' %}">{% trans 'Change password' %}</a> /
-                {% endif %}
-                <a href={% url 'rest_framework:logout' %}>Logout</a>
-            {% endblock %}
+    {% if site_url %}
+        <a href="{{ site_url }}">{% trans 'Home' %}</a> /
+    {% endif %}
+    {% if user.has_usable_password %}
+        <a href="{% url 'admin:password_change' %}">{% trans 'Change password' %}</a> /
+    {% endif %}
+    {% if user.get_username %}
+        <a href="/logout">Logout</a>
+    {% else %}
+        <a href="/login">Login</a>
+    {% endif %}
+{% endblock %}
