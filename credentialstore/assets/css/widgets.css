@@ -44,20 +44,14 @@
 }
 
 .selector .selector-filter {
-    background: white;
-    border: 1px solid #ccc;
+    background: #f7f7f9;
+    border: none;
     border-width: 0 1px;
     padding: 8px;
     color: #999;
     font-size: 10px;
     margin: 0;
     text-align: left;
-}
-
-.selector-filter {
-    background: #f7f7f9;
-    border: none;
-    border-width: 0 1px;
 }
 
 .selector .selector-filter label,
