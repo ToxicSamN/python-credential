@@ -3,7 +3,6 @@
 import os
 from functools import reduce
 from django.core import exceptions
-from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from rest_framework import generics, status
 from rest_framework.response import Response
@@ -12,7 +11,6 @@ from .serializers import AdminClientListSerializer, AdminSecretClientListSeriali
 from .models import ClientModel, SecretModel
 from.decorators import admin_login_required, create_login_required, update_login_required, retrieve_login_required
 from .render import CredStoreBrowsableAPIRenderer
-
 from .pystuffing.secret import Secret
 
 
