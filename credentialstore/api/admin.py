@@ -1,8 +1,7 @@
 # /api/admin.py
 
 from django.contrib import admin
-#from credentialstore.credentialstore.admin import CustomAdminSite
-from .models import SecretModel, ClientModel, AdminModel
+from .models import SecretModel, ClientModel
 
 
 class SecretAdminModel(admin.ModelAdmin):
@@ -16,4 +15,3 @@ class ClientAdminModel(admin.ModelAdmin):
 # Register your models here.
 admin.site.register(SecretModel, SecretAdminModel)
 admin.site.register(ClientModel, ClientAdminModel)
-admin.site.register(AdminModel)
