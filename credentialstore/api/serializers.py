@@ -1,7 +1,7 @@
 # api/serializers.py
 
 from rest_framework import serializers
-from .models import SecretModel, ClientModel, AdminModel
+from .models import SecretModel, ClientModel
 
 
 class SecretListSerializer(serializers.ModelSerializer):
@@ -101,13 +101,3 @@ class AdminSecretClientListSerializer(serializers.ModelSerializer):
         """
         model = SecretModel
         fields = ('username', 'clients', 'date_created', 'date_modified')
-
-
-# class AdminList(serializers.ModelSerializer):
-#
-#     class Meta:
-#         """
-#         Map this serializer to a model and their fields.
-#         """
-#         model = AdminModel
-#         fields = ('AdminId', 'date_created', 'date_modified')
