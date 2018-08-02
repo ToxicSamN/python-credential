@@ -6,11 +6,11 @@ from .models import SecretModel, ClientModel, AdminModel
 
 
 class SecretAdminModel(admin.ModelAdmin):
-    list_display = ('username')
+    list_display = ('username',)
 
 
 class ClientAdminModel(admin.ModelAdmin):
-    list_display = ('ClientId', 'name')
+    list_display = ('ClientId', 'name',)
 
 
 # Register your models here.
