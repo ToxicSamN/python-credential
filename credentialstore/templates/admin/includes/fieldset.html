@@ -23,6 +23,14 @@
                         <div class="help">{{ field.field.help_text|safe }}</div>
                     {% endif %}
                 </div>
+                {% if line.fields.0 == 'password' %}
+                    <ul style="margin-left: 0px">
+                        <div>
+                            <input type="checkbox" id="show_password" name="show_password" onclick="reveal()">
+                            <label for="show_password">Show Password</label>
+                        </div>
+                    </ul>
+        {% endif %}
             {% endfor %}
         </div>
     {% endfor %}
