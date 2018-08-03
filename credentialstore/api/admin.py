@@ -2,9 +2,11 @@
 
 from django.contrib import admin
 from .models import SecretModel, ClientModel
+from .forms import SecretModelForm, SecretWithCheckBoxForm
 
 
 class SecretAdminModel(admin.ModelAdmin):
+    form = SecretModelForm
     list_display = ('username',)
 
 
