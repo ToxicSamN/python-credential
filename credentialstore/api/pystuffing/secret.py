@@ -14,15 +14,22 @@ class Secret(Encryption):
         self.server_pub_file = os.environ['RSA_PUB']
         super().__init__()
 
-    def encrypt(self, privateData, publickey, output_file=None):
+    def encrypt(self, privateData, publickey=None, output_file=None):
         """
         Override encrypt method to accept a public key as a string instead of a public key file
 
-        :param privateData:
-        :param publickey:
-        :param output_file:
-        :return:
+        :param privateData: Clear text data to be encrypted
+        :param publickey: public key string (optional if using publickey_file)
+        :param output_file: Output the encrypted string to a file (optional)
+        :return: None
         """
+
+        if not publickey:
+            # no public key was provided so will use the global public key
+            with open(self.server_pub_file, 'rb') as f:
+                publickey = f.read()
+                f.close()
+
         if type(privateData) is str:
             privateData = privateData.encode("utf-8")
 
