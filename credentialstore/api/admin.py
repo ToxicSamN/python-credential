@@ -7,7 +7,7 @@ from .pystuffing.secret import Secret
 
 
 class SecretAdminModel(admin.ModelAdmin):
-    form = SecretModelForm
+    # form = SecretModelForm
     change_form_template = 'admin/change_secret_form.html'
     add_form_template = 'admin/change_secret_form.html'
     list_display = ('username',)
@@ -37,6 +37,7 @@ class SecretAdminModel(admin.ModelAdmin):
         decoder_ring.encrypt(privateData=obj.password)
         obj.password = decoder_ring.get_encrypted_message().decode('utf-8')
         return obj
+
 
 class ClientAdminModel(admin.ModelAdmin):
     list_display = ('ClientId', 'name',)

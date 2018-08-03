@@ -2,7 +2,7 @@
 
 from django.db import models
 from django.core import exceptions
-from .widgets import PasswordModelField
+from .form_fields import PasswordModelField, PasswordField
 
 
 class SecretModel(models.Model):
@@ -10,7 +10,7 @@ class SecretModel(models.Model):
     This is the class for the Secret model
     """
     username = models.CharField(max_length=65535, blank=False, unique=True)
-    password = models.CharField(max_length=65535, blank=False, unique=True)
+    password = PasswordModelField(max_length=65535, blank=False, unique=True,)
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
 
