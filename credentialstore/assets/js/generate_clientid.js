@@ -3,7 +3,7 @@ function generateClientId()
 {
     const api = 'https://localhost/credentialstore/NewClientId';
     const clientId = document.getElementById('id_ClientId');
-    var request = XMLHttpRequest();
+    var request = new XMLHttpRequest();
     request.open('GET', api, true);
     request.onload = function() {
         var data = JSON.parse(this.response)
