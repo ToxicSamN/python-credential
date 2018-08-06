@@ -1,6 +1,7 @@
 # pystuffing/client.py
 
 import hashlib
+import random
 
 
 class Client:
@@ -9,6 +10,6 @@ class Client:
     """
 
     @staticmethod
-    def create_clientid(string_data):
-        hsh = hashlib.sha512(string_data.encode())
+    def create_clientid():
+        hsh = hashlib.sha512(random._urandom(4096))
         return hsh.hexdigest()
