@@ -44,4 +44,4 @@ class ClientModel(models.Model):
         """
         Return the Human Readable representation of the model
         """
-        return "ID: {}\nPublicKey: {}".format(self.id, self.pubkey)
+        return "ClientID: {}".format(self.ClientId)
