@@ -305,7 +305,7 @@ body.popup .submit-row {
 
 .submit-row a.cancellink {
     display: block;
-    background: #ba2121;
+    background: #065da4; /* original #ba2121 */
     border-radius: 4px;
     padding: 10px 15px;
     height: 15px;
