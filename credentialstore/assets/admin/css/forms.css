@@ -275,7 +275,7 @@ body.popup .submit-row {
 .submit-row p {
     margin: 0.3em;
 }
-
+/* DELETE FIELDS */
 .submit-row p.deletelink-box {
     float: left;
     margin: 0;
@@ -295,6 +295,28 @@ body.popup .submit-row {
 .submit-row a.deletelink:hover,
 .submit-row a.deletelink:active {
     background: #a41515;
+}
+
+/* Cancel FIELDS */
+.submit-row p.cancellink-box {
+    float: left;
+    margin: 0;
+}
+
+.submit-row a.cancellink {
+    display: block;
+    background: #ba2121;
+    border-radius: 4px;
+    padding: 10px 15px;
+    height: 15px;
+    line-height: 15px;
+    color: #fff;
+}
+
+.submit-row a.cancellink:focus,
+.submit-row a.cancellink:hover,
+.submit-row a.cancellink:active {
+    background: #065da4;
 }
 
 /* CUSTOM FORM FIELDS */
