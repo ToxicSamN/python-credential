@@ -1,11 +1,12 @@
-import os
-import sys
-import platform
+
 import hashlib
 from pycrypt.encryption import Encryption
 
 
-class Client(Encryption):
+class Client:
+    """
+        Still TBD on what this will be used for if at all.
+    """
 
     def __init__(self, model, ClientId):
         self.model = model

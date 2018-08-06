@@ -6,7 +6,6 @@ from django.contrib import admin
 from django.conf.urls import url, include
 from django.contrib.auth.views import login, logout
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-#from .admin import CustomAdminSite
 from accounts.forms import LoginForm
 
 urlpatterns = [
