@@ -10,6 +10,6 @@ function generateClientId()
         if (request.status >= 200 && request.status < 400) {
             clientId.value = data.ClientId;
         }
-    }
+    };
     request.send();
 }
