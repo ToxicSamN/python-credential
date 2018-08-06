@@ -30,7 +30,14 @@
                             <label for="show_password">Show Password</label>
                         </div>
                     </ul>
-        {% endif %}
+                {% endif %}
+                {% if line.fields.0 == 'ClientId' %}
+                    <ul style="margin-left: 0px">
+                        <div>
+                            <input type="button" id="generate_id" name="generate_id" value="Generate New Client ID" onclick="generateClientId()">
+                        </div>
+                    </ul>
+                {% endif %}
             {% endfor %}
         </div>
     {% endfor %}
