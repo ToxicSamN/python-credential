@@ -1,6 +1,4 @@
 import os
-import sys
-import platform
 import base64
 from pycrypt.encryption import Encryption
 from Crypto.PublicKey import RSA
@@ -8,6 +6,10 @@ from Crypto.Cipher import PKCS1_OAEP
 
 
 class Secret(Encryption):
+    """
+        This class is iherited from the Encryption class and is used
+        specifically for encrypting and decrypting the passwords for the clients
+    """
 
     def __init__(self):
         self.server_priv_file = os.environ['RSA_PRIV']
@@ -42,6 +44,14 @@ class Secret(Encryption):
 
     def password_packaging(self, encrypted_data, client_public_key,
                            secret=os.environ['DJANGO_SECRET']):
+        """
+        This method is used to decrypt a given password using the server-side private key
+        and re-encrypting the password with the provided client publick jkey
+        :param encrypted_data: Server-Side Encrypted password
+        :param client_public_key: Client PublicKey in the form of a file name or a string
+        :param secret: The Secret Key to the Private Key for Decryption process
+        :return: Re-Encrypted Message
+        """
 
         self.decrypt(private_key_file=self.server_priv_file,
                      encrypted_data=encrypted_data,

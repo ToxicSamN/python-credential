@@ -5,6 +5,10 @@ from django.db import models
 
 
 class PasswordField(forms.CharField):
+    """
+    Inheritecd from the forms.CharField and adding a widget
+    to make a CharField into a PasswordInput field to hide clear text
+    """
     widget = forms.PasswordInput
 
 

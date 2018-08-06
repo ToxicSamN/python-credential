@@ -2,7 +2,7 @@
 
 from django.db import models
 from django.core import exceptions
-from .form_fields import PasswordModelField, PasswordField
+from .form_fields import PasswordModelField
 
 
 class SecretModel(models.Model):
