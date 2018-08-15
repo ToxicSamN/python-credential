@@ -1,5 +1,6 @@
 # api/views.py
 
+import os
 from functools import reduce
 from django.core import exceptions
 from django.utils.decorators import method_decorator
@@ -28,7 +29,6 @@ class NewClientId(generics.ListAPIView):
         return Response({"ClientId": self.client_id}, status=status.HTTP_200_OK)
 
 
-@method_decorator(retrieve_login_required, name='dispatch')
 class GetCredentialView(generics.ListAPIView):
     """
         Model View for GetCredential requests
@@ -139,9 +139,7 @@ class GetCredentialView(generics.ListAPIView):
                     # Run the password_packaging method on the password using the pubkey returned
                     #  from the serializer_q
                     s = self.decoder_ring.password_packaging(
-                        # TODO: change the dev value to production value of settings.SECRET
-                        # TODO: Better yet, create a new key pair and use the priv key as the secret
-                        secret['password'], data['pubkey'], secret='dev')
+                        secret['password'], data['pubkey'], secret=os.environ['DJANGO_SECRET'])
                     # set the password data to the string encrypted by the client pubkey
                     secret['password'] = s
                 else:
