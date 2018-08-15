@@ -54,6 +54,13 @@ logging.config.dictConfig({
             'formatter': 'console',
         },
         'django.server': DEFAULT_LOGGING['handlers']['django.server'],
+        'applogfile': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join('/u01/log', 'credentialstore.log'),
+            'maxBytes': 1024*1024*15, # 15MB
+            'backupCount': 10,
+        },
     },
     'loggers': {
     # root logger
@@ -63,7 +70,7 @@ logging.config.dictConfig({
         },
         'credentialstore': {
             'level': LOGLEVEL,
-            'handlers': ['console'],
+            'handlers': ['console', 'applogfile'],
             'propogate': False
         },
         'django.server': DEFAULT_LOGGING['loggers']['django.server'],
