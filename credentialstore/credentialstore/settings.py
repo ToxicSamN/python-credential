@@ -12,53 +12,63 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 
 import os
 import ldap
+import logging.config
+from django.utils.log import DEFAULT_LOGGING
 from configparser import ConfigParser
 from django_auth_ldap.config import LDAPSearch, LDAPSearchUnion, NestedActiveDirectoryGroupType
 
-
 parser = ConfigParser()
-
-# Setup the Logging handlers
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'mail_admins': {
-            'level': 'ERROR',
-            'class': 'django.utils.log.AdminEmailHandler'
-        },
-        'stream_to_console': {
-            'level': 'DEBUG',
-            'class': 'logging.StreamHandler'
-        },
-    },
-    'loggers': {
-        'django.request': {
-            'handlers': ['mail_admins'],
-            'level': 'ERROR',
-            'propagate': True,
-        },
-        'django_auth_ldap': {
-            'handlers': ['stream_to_console'],
-            'level': 'DEBUG',
-            'propagate': True,
-        },
-    }
-}
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ENV_FILE = os.path.join('credentialstore', 'environment.conf')
 
-print(os.path.join(BASE_DIR, ENV_FILE))
-
 parser.read(os.path.join(BASE_DIR, ENV_FILE))
 settings_dict = parser.__dict__['_sections']['ENV']
-print('ENVIRONMENT CONF')
-print(settings_dict)
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = False
+LOGLEVEL = 'INFO'
+if settings_dict.get('django_debug', None):
+    if settings_dict['django_debug'] == "True":
+        DEBUG = True
+        LOGLEVEL = 'DEBUG'
+
+# Disable Django's logging setup
+LOGGING_CONFIG = None
+
+# Setup logging
+logging.config.dictConfig({
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'console': {
+            # exact format is not important, this is the minimum information
+            'format': '%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
+        },
+        'django.server': DEFAULT_LOGGING['formatters']['django.server'],
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'console',
+        },
+        'django.server': DEFAULT_LOGGING['handlers']['django.server'],
+    },
+    'loggers': {
+    # root logger
+        '': {
+            'level': 'WARNING',
+            'handlers': ['console'],
+        },
+        'credentialstore': {
+            'level': LOGLEVEL,
+            'handlers': ['console'],
+            'propogate': False
+        },
+        'django.server': DEFAULT_LOGGING['loggers']['django.server'],
+    },
+})
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = settings_dict['django_secret']
@@ -66,11 +76,7 @@ os.environ['DJANGO_SECRET'] = SECRET_KEY
 os.environ['RSA_PRIV'] = settings_dict['rsa_priv']
 os.environ['RSA_PUB'] = settings_dict['rsa_pub']
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-if settings_dict.get('django_debug', None):
-    if settings_dict['django_debug'] == "True":
-        DEBUG = True
+
 
 print('DEBUG Enabled: {}'.format(DEBUG))
 
