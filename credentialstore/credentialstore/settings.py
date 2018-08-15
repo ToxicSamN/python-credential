@@ -54,16 +54,23 @@ logging.config.dictConfig({
             'formatter': 'console',
         },
         'django.server': DEFAULT_LOGGING['handlers']['django.server'],
+        'applogfile': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join('/u01/log', 'credentialstore.log'),
+            'maxBytes': 1024*1024*15, # 15MB
+            'backupCount': 10,
+        },
     },
     'loggers': {
     # root logger
         '': {
             'level': 'WARNING',
-            'handlers': ['console'],
+            'handlers': ['console', 'applogfile'],
         },
         'credentialstore': {
             'level': LOGLEVEL,
-            'handlers': ['console'],
+            'handlers': ['console', 'applogfile'],
             'propogate': False
         },
         'django.server': DEFAULT_LOGGING['loggers']['django.server'],
@@ -75,8 +82,6 @@ SECRET_KEY = settings_dict['django_secret']
 os.environ['DJANGO_SECRET'] = SECRET_KEY
 os.environ['RSA_PRIV'] = settings_dict['rsa_priv']
 os.environ['RSA_PUB'] = settings_dict['rsa_pub']
-
-
 
 print('DEBUG Enabled: {}'.format(DEBUG))
 
@@ -147,7 +152,7 @@ WSGI_APPLICATION = 'credentialstore.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': settings_dict['django_database_path'],
     }
 }
 
@@ -172,7 +177,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # django_auth_ldap
 AUTH_LDAP_SERVER_URI = settings_dict['ldap_uri']
-AD_CERT_FILE = os.path.join(BASE_DIR, '/etc/pki/tls/certs/cert.crt')
+AD_CERT_FILE = settings_dict['https_cert']
 ldap.set_option(ldap.OPT_PROTOCOL_VERSION, 3)
 ldap.set_option(ldap.OPT_X_TLS_REQUIRE_CERT, ldap.OPT_X_TLS_ALLOW)
 ldap.set_option(ldap.OPT_X_TLS_CACERTFILE, AD_CERT_FILE)
