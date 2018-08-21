@@ -1,6 +1,7 @@
 import os
 import base64
 from pycrypt.encryption import Encryption
+from Crypto.Random import get_random_bytes
 from Crypto.PublicKey import RSA
 from Crypto.Cipher import PKCS1_OAEP
 
@@ -58,17 +59,15 @@ class Secret(Encryption):
                      encrypted_data=encrypted_data,
                      secret_code=secret)
 
-        shared_key = RSA.generate(2048)
-        private = shared_key.exportKey(pkcs=8,
-                                       protection="scryptAndAES256-CBC")
+        session_key = get_random_bytes(256)
 
         # Encrypt the password with the new shared key
         self.encrypt(privateData=self.get_decrypted_message(),
-                     publickey=private)
+                     publickey=session_key)
         enc_pwd = self.get_encrypted_message()
 
         # Encrypt the shared private key with the client's public key
-        self.encrypt(privateData=private,
+        self.encrypt(privateData=session_key,
                      publickey=client_public_key)
         enc_key = self.get_encrypted_message()
 
