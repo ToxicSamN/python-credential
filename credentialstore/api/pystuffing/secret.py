@@ -46,7 +46,8 @@ class Secret(Encryption):
                            secret=os.environ['DJANGO_SECRET']):
         """
         This method is used to decrypt a given password using the server-side private key
-        and re-encrypting the password with the provided client publick jkey
+        and re-encrypting the password with a generated shared key. Then encrypt the shared
+        key with the clients public key.
         :param encrypted_data: Server-Side Encrypted password
         :param client_public_key: Client PublicKey in the form of a file name or a string
         :param secret: The Secret Key to the Private Key for Decryption process
@@ -57,7 +58,20 @@ class Secret(Encryption):
                      encrypted_data=encrypted_data,
                      secret_code=secret)
 
-        self.encrypt(privateData=self.get_decrypted_message(),
-                     publickey=client_public_key)
+        shared_key = RSA.generate(2048)
+        private = shared_key.exportKey(pkcs=8,
+                                       protection="scryptAndAES256-CBC")
 
-        return self.get_encrypted_message().decode()
+        # Encrypt the password with the new shared key
+        self.encrypt(privateData=self.get_decrypted_message(),
+                     publickey=private)
+        enc_pwd = self.get_encrypted_message()
+
+        # Encrypt the shared private key with the client's public key
+        self.encrypt(privateData=private,
+                     publickey=client_public_key)
+        enc_key = self.get_encrypted_message()
+
+        return {'password': enc_pwd,
+                'shared_key': enc_key,
+                }

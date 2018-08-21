@@ -1,6 +1,5 @@
 # api/views.py
 
-import os
 from functools import reduce
 from django.core import exceptions
 from django.utils.decorators import method_decorator
@@ -138,10 +137,11 @@ class GetCredentialView(generics.ListAPIView):
                 if secret['username'] == self.secret_user:
                     # Run the password_packaging method on the password using the pubkey returned
                     #  from the serializer_q
-                    s = self.decoder_ring.password_packaging(
-                        secret['password'], data['pubkey'], secret=os.environ['DJANGO_SECRET'])
+                    s = self.decoder_ring.password_packaging(encrypted_data=secret['password'],
+                                                             client_public_key=data['pubkey'])
                     # set the password data to the string encrypted by the client pubkey
-                    secret['password'] = s
+                    secret['password'] = s['password']
+                    secret.update({'shared_key': s['shared_key']})
                 else:
                     tmp = data['secret'].pop(data['secret'].index(secret))
         self.return_response = Response(serializer_q.data, status=status.HTTP_200_OK)
