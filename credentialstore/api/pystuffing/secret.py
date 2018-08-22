@@ -62,7 +62,7 @@ class Secret(Encryption):
                      secret_code=secret)
 
         # Encrypt the password with the AESCipher
-        enc_pwd = aes_cipher.encrypt(self.get_decrypted_message())
+        enc_pwd = aes_cipher.encrypt(self.get_decrypted_message().encode('utf-8)'))
         session_key = aes_cipher.AES_KEY
 
         # Encrypt the shared private key with the client's public key
