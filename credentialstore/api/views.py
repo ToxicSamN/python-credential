@@ -132,6 +132,7 @@ class GetCredentialView(generics.ListAPIView):
         # loop through the serialized data looking for the secret model information
         for data in serializer_q.data:
             # loop through the serialized secret data looking for the username and password
+            mutable_secret = data['secret'].copy()
             for secret in data['secret']:
                 # check if the username matches what the query suggests
                 if secret['username'] == self.secret_user:
@@ -143,7 +144,8 @@ class GetCredentialView(generics.ListAPIView):
                     secret['password'] = s['password']
                     secret.update({'shared_key': s['shared_key']})
                 else:
-                    tmp = data['secret'].pop(data['secret'].index(secret))
+                    tmp = mutable_secret.pop(mutable_secret.index(secret))
+            data['secret'] = mutable_secret
         self.return_response = Response(serializer_q.data, status=status.HTTP_200_OK)
 
 
