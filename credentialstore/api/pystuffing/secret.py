@@ -1,9 +1,9 @@
 import os
 import base64
-from pycrypt.encryption import Encryption
-from Crypto.Random import get_random_bytes
+import hashlib
+from pycrypt.encryption import Encryption, AESCipher
 from Crypto.PublicKey import RSA
-from Crypto.Cipher import PKCS1_OAEP
+from Crypto.Cipher import PKCS1_OAEP, AES
 
 
 class Secret(Encryption):
@@ -55,16 +55,15 @@ class Secret(Encryption):
         :return: Re-Encrypted Message
         """
 
+        aes_cipher = AESCipher()
+
         self.decrypt(private_key_file=self.server_priv_file,
                      encrypted_data=encrypted_data,
                      secret_code=secret)
 
-        session_key = get_random_bytes(256)
-
-        # Encrypt the password with the new shared key
-        self.encrypt(privateData=self.get_decrypted_message(),
-                     publickey=session_key)
-        enc_pwd = self.get_encrypted_message()
+        # Encrypt the password with the AESCipher
+        enc_pwd = aes_cipher.encrypt(self.get_decrypted_message())
+        session_key = aes_cipher.AES_KEY
 
         # Encrypt the shared private key with the client's public key
         self.encrypt(privateData=session_key,
@@ -74,3 +73,4 @@ class Secret(Encryption):
         return {'password': enc_pwd,
                 'shared_key': enc_key,
                 }
+
