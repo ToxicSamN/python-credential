@@ -153,31 +153,31 @@ class GetCredentialView(generics.ListAPIView):
 
 @method_decorator(update_login_required, name='dispatch')
 class UpdateCredentialView(generics.UpdateAPIView):
-    """ Not yet built out, for future relase """
+    """ Not yet built out, for future release """
     pass
 
 
 @method_decorator(admin_login_required, name='dispatch')
 class DeleteCredentialView(generics.DestroyAPIView):
-    """ Not yet built out, for future relase """
+    """ Not yet built out, for future release """
     pass
 
 
 @method_decorator(admin_login_required, name='dispatch')
 class UpdateSecretView(generics.UpdateAPIView):
-    """ Not yet built out, for future relase """
+    """ Not yet built out, for future release """
     pass
 
 
 @method_decorator(admin_login_required, name='dispatch')
 class DeleteSecretView(generics.DestroyAPIView):
-    """ Not yet built out, for future relase """
+    """ Not yet built out, for future release """
     pass
 
 
 @method_decorator(admin_login_required, name='dispatch')
 class UpdateUserAccessView(generics.UpdateAPIView):
-    """ Not yet built out, for future relase """
+    """ Not yet built out, for future release """
     pass
 
 
