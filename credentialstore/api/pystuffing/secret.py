@@ -1,8 +1,9 @@
 import os
 import base64
-from pycrypt.encryption import Encryption
+import hashlib
+from pycrypt.encryption import Encryption, AESCipher
 from Crypto.PublicKey import RSA
-from Crypto.Cipher import PKCS1_OAEP
+from Crypto.Cipher import PKCS1_OAEP, AES
 
 
 class Secret(Encryption):
@@ -46,18 +47,30 @@ class Secret(Encryption):
                            secret=os.environ['DJANGO_SECRET']):
         """
         This method is used to decrypt a given password using the server-side private key
-        and re-encrypting the password with the provided client publick jkey
+        and re-encrypting the password with a generated shared key. Then encrypt the shared
+        key with the clients public key.
         :param encrypted_data: Server-Side Encrypted password
         :param client_public_key: Client PublicKey in the form of a file name or a string
         :param secret: The Secret Key to the Private Key for Decryption process
         :return: Re-Encrypted Message
         """
 
+        aes_cipher = AESCipher()
+
         self.decrypt(private_key_file=self.server_priv_file,
                      encrypted_data=encrypted_data,
                      secret_code=secret)
 
-        self.encrypt(privateData=self.get_decrypted_message(),
-                     publickey=client_public_key)
+        # Encrypt the password with the AESCipher
+        enc_pwd = aes_cipher.encrypt(self.get_decrypted_message().encode('utf-8)'))
+        session_key = aes_cipher.AES_KEY
 
-        return self.get_encrypted_message().decode()
+        # Encrypt the shared private key with the client's public key
+        self.encrypt(privateData=session_key,
+                     publickey=client_public_key)
+        enc_key = self.get_encrypted_message()
+
+        return {'password': enc_pwd,
+                'shared_key': enc_key,
+                }
+
