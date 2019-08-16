@@ -15,7 +15,7 @@ import ldap
 import logging.config
 from django.utils.log import DEFAULT_LOGGING
 from configparser import ConfigParser
-from django_auth_ldap.config import LDAPSearch, LDAPSearchUnion, NestedActiveDirectoryGroupType
+from django_auth_ldap.config import LDAPGroupQuery, LDAPSearch, LDAPSearchUnion, NestedActiveDirectoryGroupType
 
 parser = ConfigParser()
 
@@ -24,6 +24,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ENV_FILE = os.path.join('credentialstore', 'environment.conf')
 
 parser.read(os.path.join(BASE_DIR, ENV_FILE))
+
+# development/debug pparameters
+parser = ConfigParser()
+parser.read('/etc/environment.conf')
 settings_dict = parser.__dict__['_sections']['ENV']
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -186,17 +190,14 @@ ldap.set_option(ldap.OPT_X_TLS_CACERTFILE, AD_CERT_FILE)
 AUTH_LDAP_BIND_DN = settings_dict['bind_account']
 AUTH_LDAP_BIND_PASSWORD = settings_dict['bind_passwd']
 
-AUTH_LDAP_USER_SEARCH = LDAPSearchUnion(
-    LDAPSearch(settings_dict['ldap_search1'],
-               ldap.SCOPE_SUBTREE,
-               "(sAMAccountName=%(user)s)"),
-    LDAPSearch(settings_dict['ldap_search2'],
-               ldap.SCOPE_SUBTREE,
-               "(sAMAccountName=%(user)s)"),
-    LDAPSearch(settings_dict['ldap_search3'],
-               ldap.SCOPE_SUBTREE,
-               "(sAMAccountName=%(user)s)"),
-)
+# LDAP USER SEARCH
+AUTH_LDAP_USER_SEARCH = LDAPSearchUnion()
+_ldap_search_list = []
+for s in settings_dict['ldap_search'].split('"'):
+    if s.lower().startswith('cn') or s.lower().startswith('ou') or s.lower().startswith('dc'):
+        _ldap_search_list.append(LDAPSearch(s, ldap.SCOPE_SUBTREE, "(sAMAccountName=%(user)s)"))
+AUTH_LDAP_USER_SEARCH.searches = tuple(_ldap_search_list)
+
 AUTH_LDAP_ALWAYS_UPDATE_USER = True
 AUTH_LDAP_USER_ATTR_MAP = {
     "first_name": "givenName",
@@ -204,19 +205,29 @@ AUTH_LDAP_USER_ATTR_MAP = {
     "email": "mail"
 }
 
-AUTH_LDAP_GROUP_SEARCH = LDAPSearch(settings_dict['ldap_grp_search'],
-                                    ldap.SCOPE_SUBTREE,
-                                    "(objectClass=group)")
+# LDAP Group Search
+prefixes = ('cn', 'ou', 'dc')
+AUTH_LDAP_GROUP_SEARCH = LDAPSearchUnion()
+AUTH_LDAP_GROUP_SEARCH.searches = tuple([LDAPSearch(s, ldap.SCOPE_SUBTREE, "(objectClass=group)")
+                                         for s in settings_dict['ldap_grp_search'].split('"')
+                                         if s.lower().startswith(prefixes)])
+
+# Django is_active, is_staff, is_superuser
+_ldap_active = tuple(s for s in settings_dict['ldap_active'].split('"') if s.lower().startswith(prefixes))
 AUTH_LDAP_USER_FLAGS_BY_GROUP = {
-    'is_active': settings_dict['ldap_active'],
-    'is_staff': settings_dict['ldap_staff'],
-    'is_superuser': settings_dict['ldap_super'],
+    'is_active': _ldap_active,
+    'is_staff': tuple(s for s in settings_dict['ldap_staff'].split('"') if s.lower().startswith(prefixes)),
+    'is_superuser': tuple(s for s in settings_dict['ldap_super'].split('"') if s.lower().startswith(prefixes)),
 }
 
+# LDAP and Django Group Mapping
+prefixes = ('[', ',', ']')
 AUTH_LDAP_GROUP_TYPE = NestedActiveDirectoryGroupType()
 AUTH_LDAP_FIND_GROUP_PERMS = True
-AUTH_LDAP_MIRROR_GROUPS = [settings_dict['ldap_mirror_groups']]
-AUTH_LDAP_REQUIRE_GROUP = settings_dict['ldap_active']
+AUTH_LDAP_MIRROR_GROUPS = tuple([g for g in settings_dict['ldap_mirror_groups'].split('"') if not g.startswith(prefixes)])
+AUTH_LDAP_REQUIRE_GROUP = LDAPGroupQuery()
+AUTH_LDAP_REQUIRE_GROUP.connector = 'OR'
+AUTH_LDAP_REQUIRE_GROUP.children = _ldap_active
 AUTH_LDAP_CACHE_GROUPS = True
 AUTH_LDAP_GROUP_CACHE_TIMEOUT = 3600
 
@@ -230,7 +241,7 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/home.html'
 LOGOUT_REDIRECT_URL = '/'
 
 # Internationalization

@@ -4,18 +4,18 @@
 
 from django.contrib import admin
 from django.conf.urls import url, include
-from django.contrib.auth.views import login, logout
+from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from accounts.forms import LoginForm
 
 urlpatterns = [
-    url('admin/login/', login, {'template_name': 'registration/login.html', 'authentication_form': LoginForm}),
+    url('admin/login/', LoginView.as_view(template_name='registration/login.html', authentication_form=LoginForm)),
     url('admin/', admin.site.urls, name='admin'),
     url(r'credentialstore/', include('api.urls')),
     url(r'^', include('accounts.urls')),
     url(r'^accounts/', include('accounts.urls')),
-    url(r'^login/$', login, {'next_page': '/home.htm', 'template_name': 'registration/login.html', 'authentication_form': LoginForm}),
-    url(r'^logout/$', logout, {'next_page': '/accounts/login'}),
+    url(r'^login/$', LoginView.as_view(template_name='registration/login.html', authentication_form=LoginForm)),
+    url(r'^logout/$', LogoutView.as_view(next_page='/accounts/login')),
 ]
 
 
