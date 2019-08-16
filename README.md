@@ -8,7 +8,7 @@ The purpose of this API is to provide a central point in which a user can obtain
 ## How it Works (High Level):
 It works based off of RSA key-pair encryption. A client id must be generated for each system/code/project that requires access to the API. They must also provide their RSA public key when they register the system in the database.
 
-When a credential is stored into the database the API system will encrypt the password with its own public key. When a request comes in for a credential there are some checks in the background looking to ensure a specific client has access to the credential being requested. If the checks all clear then the credentials are decrypted by the API system and re-encrypted with the client's public key and sent back as an http response with a JSON payload. It is up to the user to decrypt and use the credentials. This is all done over HTTPS as well in order to keep everything from being clear text.
+When a credential is stored into the database the API system will encrypt the password with its own public key. When a request comes in for a credential there are some checks in the background looking to ensure a specific client has access to the credential being requested. If the checks all clear then the credentials are decrypted by the API system and re-encrypted with AES and auto generatesd AES KEY. The AES key is then encrypted with the the client's public key and sent back as an http response with a JSON payload. It is up to the user to decrypt the AES KEY and use the the decrypted AES KEY to decrypt the credentials. This is all done over HTTPS as well in order to keep everything from being clear text. The passwords are stored in the database with encryption at rest.
 
 # Usage:
 ##P rerequisites:
