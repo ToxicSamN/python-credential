@@ -161,7 +161,7 @@ if settings_dict['django_db_engine'] == 'postgresql':
         'USER': settings_dict['db_user'],
         'PASSWORD': settings_dict['db_pass'],
         'HOST': settings_dict['db_host'],
-        'PORT': settings_dict['db_port'],
+        'PORT': settings_dict.get('db_port') or '',
     }
 else:
     # sqlite3
