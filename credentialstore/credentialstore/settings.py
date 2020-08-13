@@ -24,7 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ENV_FILE = '/u01/env/environment.conf'
 
 # FIXME: development/debug parameters
-ENV_FILE = '~/.devfs/u01/env/environment.conf'
+# ENV_FILE = '~/.devfs/u01/env/environment.conf'
 # FIXME: End
 
 parser.read(os.path.join(BASE_DIR, ENV_FILE))
