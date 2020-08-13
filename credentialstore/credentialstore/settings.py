@@ -21,13 +21,14 @@ parser = ConfigParser()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-ENV_FILE = os.path.join('credentialstore', 'environment.conf')
+ENV_FILE = '/u01/env/environment.conf'
+
+# FIXME: development/debug parameters
+ENV_FILE = '~/.devfs/u01/env/environment.conf'
+# FIXME: End
 
 parser.read(os.path.join(BASE_DIR, ENV_FILE))
 
-# development/debug pparameters
-parser = ConfigParser()
-parser.read('/etc/environment.conf')
 settings_dict = parser.__dict__['_sections']['ENV']
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -153,11 +154,24 @@ WSGI_APPLICATION = 'credentialstore.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': settings_dict['django_database_path'],
+if settings_dict['django_db_engine'] == 'postgresql':
+    db = {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': settings_dict['db_name'],
+        'USER': settings_dict['db_user'],
+        'PASSWORD': settings_dict['db_pass'],
+        'HOST': settings_dict['db_host'],
+        'PORT': settings_dict['db_port'],
     }
+else:
+    # sqlite3
+    db = {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': settings_dict['db_path'],
+    }
+
+DATABASES = {
+    'default': db,
 }
 
 
@@ -191,11 +205,13 @@ AUTH_LDAP_BIND_DN = settings_dict['bind_account']
 AUTH_LDAP_BIND_PASSWORD = settings_dict['bind_passwd']
 
 # LDAP USER SEARCH
+prefixes = ('cn', 'ou', 'dc')
 AUTH_LDAP_USER_SEARCH = LDAPSearchUnion()
+
 _ldap_search_list = []
-for s in settings_dict['ldap_search'].split('"'):
-    if s.lower().startswith('cn') or s.lower().startswith('ou') or s.lower().startswith('dc'):
-        _ldap_search_list.append(LDAPSearch(s, ldap.SCOPE_SUBTREE, "(sAMAccountName=%(user)s)"))
+for s in settings_dict['ldap_search'].split(';'):
+    if s.lower().startswith(prefixes):
+        _ldap_search_list.append(LDAPSearch(s.replace("'", "").replace('"', ''), ldap.SCOPE_SUBTREE, "(sAMAccountName=%(user)s)"))
 AUTH_LDAP_USER_SEARCH.searches = tuple(_ldap_search_list)
 
 AUTH_LDAP_ALWAYS_UPDATE_USER = True
@@ -206,18 +222,25 @@ AUTH_LDAP_USER_ATTR_MAP = {
 }
 
 # LDAP Group Search
-prefixes = ('cn', 'ou', 'dc')
 AUTH_LDAP_GROUP_SEARCH = LDAPSearchUnion()
-AUTH_LDAP_GROUP_SEARCH.searches = tuple([LDAPSearch(s, ldap.SCOPE_SUBTREE, "(objectClass=group)")
-                                         for s in settings_dict['ldap_grp_search'].split('"')
+AUTH_LDAP_GROUP_SEARCH.searches = tuple([LDAPSearch(s.replace("'", "").replace('"', ''), ldap.SCOPE_SUBTREE, "(objectClass=group)")
+                                         for s in settings_dict['ldap_group_search'].split(';')
                                          if s.lower().startswith(prefixes)])
 
 # Django is_active, is_staff, is_superuser
-_ldap_active = tuple(s for s in settings_dict['ldap_active'].split('"') if s.lower().startswith(prefixes))
+_ldap_active = tuple(s.replace("'", "").replace('"', '')
+                     for s in settings_dict['ldap_active'].split(';')
+                     if s.lower().startswith(prefixes))
+_ldap_staff = tuple(s.replace("'", "").replace('"', '')
+                    for s in settings_dict['ldap_staff'].split(';')
+                    if s.lower().startswith(prefixes))
+_ldap_superuser = tuple(s.replace("'", "").replace('"', '')
+                        for s in settings_dict['ldap_super'].split(';')
+                        if s.lower().startswith(prefixes))
 AUTH_LDAP_USER_FLAGS_BY_GROUP = {
     'is_active': _ldap_active,
-    'is_staff': tuple(s for s in settings_dict['ldap_staff'].split('"') if s.lower().startswith(prefixes)),
-    'is_superuser': tuple(s for s in settings_dict['ldap_super'].split('"') if s.lower().startswith(prefixes)),
+    'is_staff': _ldap_staff,
+    'is_superuser': _ldap_superuser,
 }
 
 # LDAP and Django Group Mapping
