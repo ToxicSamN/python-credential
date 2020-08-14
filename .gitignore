@@ -112,5 +112,4 @@ ENV/
 *.p7b
 *.pem
 
-*environment.conf
 credstore_notes.txt
