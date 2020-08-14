@@ -2,6 +2,7 @@ import os
 import base64
 import hashlib
 from pycrypt.encryption import Encryption, AESCipher
+import Crypto.Hash.SHA256
 from Crypto.PublicKey import RSA
 from Crypto.Cipher import PKCS1_OAEP, AES
 
@@ -37,7 +38,9 @@ class Secret(Encryption):
             privateData = privateData.encode("utf-8")
 
         pubkey = RSA.import_key(publickey)
-        cipher_rsa = PKCS1_OAEP.new(pubkey)
+        rng = os.urandom
+        # establish a new cipher using SHA256 as the hashing algorithm
+        cipher_rsa = PKCS1_OAEP.new(key=pubkey, hashAlgo=Crypto.Hash.SHA256, label=b'', randfunc=rng)
         encrypted_message = cipher_rsa.encrypt(privateData)
 
         self._Encryption__decrypted_message = None
